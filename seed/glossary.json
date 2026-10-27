@@ -1,0 +1,266 @@
+[
+  {
+    "id": 1,
+    "term": "Test Object",
+    "definition": "The work product to be tested. Examples include requirements, design, code, test plan, user story, build, website.",
+    "chapter_id": 1
+  },
+  {
+    "id": 2,
+    "term": "Test Basis",
+    "definition": "The body of knowledge used as the basis for test analysis and design. Any documentation from which requirements of a component or system can be inferred.",
+    "chapter_id": 1
+  },
+  {
+    "id": 3,
+    "term": "Defect",
+    "definition": "An imperfection or deficiency in a work product where it does not meet its requirements or specifications. Also called fault or bug.",
+    "chapter_id": 1
+  },
+  {
+    "id": 4,
+    "term": "Failure",
+    "definition": "An event in which a component or system does not perform a required function within specified limits. A failure is the manifestation of a defect during execution.",
+    "chapter_id": 1
+  },
+  {
+    "id": 5,
+    "term": "Error",
+    "definition": "A human action that produces an incorrect result. Errors lead to defects which may lead to failures.",
+    "chapter_id": 1
+  },
+  {
+    "id": 6,
+    "term": "Root Cause",
+    "definition": "The fundamental reason for the occurrence of a problem. Identifying root causes helps prevent recurrence.",
+    "chapter_id": 1
+  },
+  {
+    "id": 7,
+    "term": "Test Condition",
+    "definition": "An aspect of the test object that can be verified by one or more test cases.",
+    "chapter_id": 1
+  },
+  {
+    "id": 8,
+    "term": "Test Case",
+    "definition": "A set of preconditions, inputs, actions (where applicable), expected results and postconditions, developed based on test conditions.",
+    "chapter_id": 1
+  },
+  {
+    "id": 9,
+    "term": "Test Suite",
+    "definition": "A set of test cases or test procedures that are linked together so that one can follow the other. Often executed together.",
+    "chapter_id": 1
+  },
+  {
+    "id": 10,
+    "term": "Test Script",
+    "definition": "A sequence of instructions for the execution of a test, specifying the steps to be taken, in detail.",
+    "chapter_id": 1
+  },
+  {
+    "id": 11,
+    "term": "Verification",
+    "definition": "Confirmation by examination and through provision of objective evidence that specified requirements have been fulfilled. Checks 'are we building it right?'",
+    "chapter_id": 1
+  },
+  {
+    "id": 12,
+    "term": "Validation",
+    "definition": "Confirmation by examination and through provision of objective evidence that the requirements for a specific intended use or application have been fulfilled. Checks 'are we building the right thing?'",
+    "chapter_id": 1
+  },
+  {
+    "id": 13,
+    "term": "Test Level",
+    "definition": "A group of test activities that are organized and managed together. Examples: component testing, integration testing, system testing, acceptance testing.",
+    "chapter_id": 2
+  },
+  {
+    "id": 14,
+    "term": "Component Testing",
+    "definition": "Testing of individual hardware or software components. Also called unit testing. Typically performed by developers.",
+    "chapter_id": 2
+  },
+  {
+    "id": 15,
+    "term": "Integration Testing",
+    "definition": "Testing performed to expose defects in the interfaces and in the interaction between integrated components or systems.",
+    "chapter_id": 2
+  },
+  {
+    "id": 16,
+    "term": "System Testing",
+    "definition": "Testing an integrated system to verify that it meets specified requirements. Treats the system as a whole.",
+    "chapter_id": 2
+  },
+  {
+    "id": 17,
+    "term": "Acceptance Testing",
+    "definition": "Formal testing with respect to user needs, requirements, and business processes. Determines whether a system satisfies acceptance criteria.",
+    "chapter_id": 2
+  },
+  {
+    "id": 18,
+    "term": "Regression Testing",
+    "definition": "Testing to detect defects introduced in existing functionality by changes. Ensures previously working functionality still works.",
+    "chapter_id": 2
+  },
+  {
+    "id": 19,
+    "term": "Confirmation Testing",
+    "definition": "Testing that confirms that a defect has been successfully fixed. Also called re-testing.",
+    "chapter_id": 2
+  },
+  {
+    "id": 20,
+    "term": "Smoke Testing",
+    "definition": "A set of tests run on a new build to confirm that the critical functions work, before extensive testing is performed.",
+    "chapter_id": 2
+  },
+  {
+    "id": 21,
+    "term": "Static Testing",
+    "definition": "Testing that does not involve the execution of the test object. Includes reviews and static analysis.",
+    "chapter_id": 3
+  },
+  {
+    "id": 22,
+    "term": "Dynamic Testing",
+    "definition": "Testing that involves the execution of the software of a component or system.",
+    "chapter_id": 3
+  },
+  {
+    "id": 23,
+    "term": "Review",
+    "definition": "An evaluation of a product or project status to ascertain discrepancies from planned results and to initiate corrective actions. A type of static testing.",
+    "chapter_id": 3
+  },
+  {
+    "id": 24,
+    "term": "Inspection",
+    "definition": "A type of peer review that relies on visual examination of documents to detect defects, e.g., violations of development standards and non-conformance to higher-level documents. The most formal type of review.",
+    "chapter_id": 3
+  },
+  {
+    "id": 25,
+    "term": "Walkthrough",
+    "definition": "A type of review in which an author leads members of the review team through a work product and the participants ask questions.",
+    "chapter_id": 3
+  },
+  {
+    "id": 26,
+    "term": "Static Analysis",
+    "definition": "The process of evaluating a component or system without executing it, based on its form, structure, content, or documentation.",
+    "chapter_id": 3
+  },
+  {
+    "id": 27,
+    "term": "Equivalence Partitioning",
+    "definition": "A black-box test design technique in which test cases are designed to exercise equivalence partitions. An equivalence partition is a range of values that the test object is expected to handle in the same way.",
+    "chapter_id": 4
+  },
+  {
+    "id": 28,
+    "term": "Boundary Value Analysis",
+    "definition": "A black-box test design technique in which test cases are designed based on boundary values. Tests the minimum and maximum values and the values just inside and outside the boundaries.",
+    "chapter_id": 4
+  },
+  {
+    "id": 29,
+    "term": "Decision Table Testing",
+    "definition": "A black-box test design technique in which test cases are designed to execute the combinations of inputs and stimuli (causes) shown in a decision table.",
+    "chapter_id": 4
+  },
+  {
+    "id": 30,
+    "term": "State Transition Testing",
+    "definition": "A black-box test design technique in which test cases are designed to execute valid and invalid state transitions.",
+    "chapter_id": 4
+  },
+  {
+    "id": 31,
+    "term": "Statement Coverage",
+    "definition": "The percentage of executable statements executed by a test suite: Statement Coverage = (Executable Statements Executed / Total Executable Statements) × 100%.",
+    "chapter_id": 4
+  },
+  {
+    "id": 32,
+    "term": "Branch Coverage",
+    "definition": "The percentage of decision outcomes exercised by a test suite: Branch Coverage = (Decision Outcomes Exercised / Total Decision Outcomes (Branches)) × 100%. 100% branch coverage implies 100% statement coverage.",
+    "chapter_id": 4
+  },
+  {
+    "id": 33,
+    "term": "Exploratory Testing",
+    "definition": "An experience-based testing technique in which the tester simultaneously designs and executes tests based on what they learn.",
+    "chapter_id": 4
+  },
+  {
+    "id": 34,
+    "term": "Error Guessing",
+    "definition": "A test technique without a formal test procedure. The tester's experience is used to anticipate what defects might be present.",
+    "chapter_id": 4
+  },
+  {
+    "id": 35,
+    "term": "Test Plan",
+    "definition": "Documentation describing the test objectives, scope, approach, resources, and schedule of testing activities.",
+    "chapter_id": 5
+  },
+  {
+    "id": 36,
+    "term": "Test Strategy",
+    "definition": "Documentation that describes the generic test approach for one or more projects, typically at the organizational level.",
+    "chapter_id": 5
+  },
+  {
+    "id": 37,
+    "term": "Entry Criteria",
+    "definition": "The set of conditions for officially starting a defined task. Used to determine when a test activity can begin.",
+    "chapter_id": 5
+  },
+  {
+    "id": 38,
+    "term": "Exit Criteria",
+    "definition": "The set of conditions for officially completing a defined task. Used to determine when a test activity is done.",
+    "chapter_id": 5
+  },
+  {
+    "id": 39,
+    "term": "Risk",
+    "definition": "A factor that could result in future negative consequences. In testing, product risk relates to the software quality, and project risk relates to the management and control of the project.",
+    "chapter_id": 5
+  },
+  {
+    "id": 40,
+    "term": "Defect Density",
+    "definition": "The number of defects identified in a component or system divided by the size of the component or system (e.g., defects per 1000 lines of code).",
+    "chapter_id": 5
+  },
+  {
+    "id": 41,
+    "term": "Test Automation",
+    "definition": "The use of software to perform or support test activities such as test management, test design, test execution, and test evaluation.",
+    "chapter_id": 6
+  },
+  {
+    "id": 42,
+    "term": "Test Execution Tool",
+    "definition": "A tool that executes tests against a component or system, and evaluates the outcome against expected results and exit criteria.",
+    "chapter_id": 6
+  },
+  {
+    "id": 43,
+    "term": "ROI (Return on Investment)",
+    "definition": "In test automation, the ratio of net benefits of automation versus the cost. Must be positive to justify the investment in automation.",
+    "chapter_id": 6
+  },
+  {
+    "id": 44,
+    "term": "CI/CD",
+    "definition": "Continuous Integration / Continuous Delivery. A practice where code changes are automatically built, tested, and deployed. Test automation is essential for effective CI/CD.",
+    "chapter_id": 6
+  }
+]

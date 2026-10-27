@@ -1,0 +1,346 @@
+[
+  {
+    "id": 1,
+    "chapter_id": 1,
+    "lo_reference": "FL-1.1.1",
+    "k_level": "K1",
+    "front_text": "What are the typical test objectives? (List at least 4)",
+    "back_text": "1. Evaluating work products (requirements, code, designs)\n2. Finding defects and failures\n3. Ensuring required coverage of the test object\n4. Reducing the risk of inadequate software quality\n5. Verifying requirements have been fulfilled\n6. Providing information for decision-making\n7. Building confidence in the quality of the test object\n8. Complying with contractual/legal requirements"
+  },
+  {
+    "id": 2,
+    "chapter_id": 1,
+    "lo_reference": "FL-1.1.1",
+    "k_level": "K1",
+    "front_text": "Testing and debugging are different activities. What does debugging involve?",
+    "back_text": "Debugging involves:\n• Finding, analyzing, and removing the causes of failures (defects)\n• Done by developers, not testers\n• Testers find failures → developers debug → testers confirm fix (confirmation testing)"
+  },
+  {
+    "id": 3,
+    "chapter_id": 1,
+    "lo_reference": "FL-1.2.1",
+    "k_level": "K2",
+    "front_text": "Why is testing necessary in software development? Give 3 reasons.",
+    "back_text": "1. Humans make errors (errors → defects → failures)\n2. Software defects can cause financial loss, time waste, or harm\n3. Testing reduces risk of software failure in operation\n4. Meets regulatory, contractual, or legal requirements\n5. Provides stakeholders with information to make release decisions"
+  },
+  {
+    "id": 4,
+    "chapter_id": 1,
+    "lo_reference": "FL-1.2.2",
+    "k_level": "K2",
+    "front_text": "Explain the relationship between error → defect → failure with an example.",
+    "back_text": "• Error: A developer misunderstands a requirement and writes the wrong formula (human mistake)\n• Defect: The wrong formula in the code (flaw in the work product)\n• Failure: The system calculates the wrong result when the code executes (deviation from expected behavior)\n\nNot all defects lead to failures (e.g., unreachable code)."
+  },
+  {
+    "id": 5,
+    "chapter_id": 1,
+    "lo_reference": "FL-1.3.1",
+    "k_level": "K1",
+    "front_text": "List all 7 Testing Principles",
+    "back_text": "1. Testing shows the presence, not absence, of defects\n2. Exhaustive testing is impossible\n3. Early testing saves time and money\n4. Defects cluster together\n5. Tests wear out (Pesticide Paradox)\n6. Testing is context dependent\n7. Absence of defects fallacy"
+  },
+  {
+    "id": 6,
+    "chapter_id": 1,
+    "lo_reference": "FL-1.3.1",
+    "k_level": "K2",
+    "front_text": "The Pesticide Paradox principle says tests 'wear out'. What does this mean and how do you address it?",
+    "back_text": "Tests wear out because if the same tests are run repeatedly, they eventually stop finding new defects — the software has been 'inoculated' against them.\n\nSolution: Regularly review and revise tests, add new tests to cover different areas, use different test techniques."
+  },
+  {
+    "id": 7,
+    "chapter_id": 1,
+    "lo_reference": "FL-1.3.1",
+    "k_level": "K2",
+    "front_text": "What does 'Defects cluster together' mean for test prioritization?",
+    "back_text": "A small number of modules typically contain most of the defects (Pareto principle / 80-20 rule). This means:\n• Focus testing effort on high-risk, defect-prone areas\n• Modules that had many past defects are more likely to have more\n• Risk-based testing can use defect history to guide priorities"
+  },
+  {
+    "id": 8,
+    "chapter_id": 1,
+    "lo_reference": "FL-1.4.1",
+    "k_level": "K2",
+    "front_text": "What are the activities in the test process? List them in order.",
+    "back_text": "1. Test Planning — define objectives, approach, resources\n2. Test Monitoring & Control — track progress, take corrective actions\n3. Test Analysis — identify what to test (test conditions)\n4. Test Design — specify how to test (test cases)\n5. Test Implementation — prepare test environment, data, scripts\n6. Test Execution — run tests, compare actual vs expected\n7. Test Completion — archive artifacts, report, lessons learned"
+  },
+  {
+    "id": 9,
+    "chapter_id": 1,
+    "lo_reference": "FL-1.5.1",
+    "k_level": "K2",
+    "front_text": "How does the psychology of testing differ between a developer testing their own code vs. an independent tester?",
+    "back_text": "• Developers testing own code: cognitive bias (confirmation bias), assume code is correct, may miss their own errors\n• Independent testers: different perspective, more likely to find defects, no emotional attachment to the code\n• However, independent testing is not always better — collaboration is key\n• Good testers are curious, skeptical, and detail-oriented"
+  },
+  {
+    "id": 10,
+    "chapter_id": 2,
+    "lo_reference": "FL-2.1.1",
+    "k_level": "K2",
+    "front_text": "How does the chosen SDLC model impact testing activities?",
+    "back_text": "• Sequential (Waterfall): Testing mostly at the end — late defect detection, high fix cost\n• V-model: Each development phase has a corresponding test phase — early test planning\n• Agile/Iterative: Testing integrated into each iteration/sprint — continuous feedback\n• Rule: For every development activity, there should be a corresponding testing activity\n• Test levels must be adapted to the SDLC model being used"
+  },
+  {
+    "id": 11,
+    "chapter_id": 2,
+    "lo_reference": "FL-2.2.1",
+    "k_level": "K1",
+    "front_text": "What are the four test levels and what does each test?",
+    "back_text": "1. Component Testing: Individual components in isolation (unit tests)\n2. Component Integration Testing: Interfaces between integrated components\n3. System Testing: Complete, integrated system against system requirements\n4. Acceptance Testing: System against user needs and business requirements"
+  },
+  {
+    "id": 12,
+    "chapter_id": 2,
+    "lo_reference": "FL-2.2.2",
+    "k_level": "K2",
+    "front_text": "In the V-model, which development artifact corresponds to each test level?",
+    "back_text": "• Component design ↔ Component testing\n• Architectural design ↔ Component integration testing\n• System requirements specification ↔ System testing\n• Business requirements / user needs ↔ Acceptance testing\n\nTest planning for each level should begin during the corresponding development phase."
+  },
+  {
+    "id": 13,
+    "chapter_id": 2,
+    "lo_reference": "FL-2.3.1",
+    "k_level": "K1",
+    "front_text": "What are the four main test types?",
+    "back_text": "1. Functional Testing: Tests what the system does (functions, features)\n2. Non-functional Testing: Tests how well the system behaves (performance, security, usability, reliability)\n3. White-box Testing: Tests based on internal structure (code, architecture)\n4. Change-related Testing: Tests after changes (regression testing, confirmation testing)"
+  },
+  {
+    "id": 14,
+    "chapter_id": 2,
+    "lo_reference": "FL-2.4.1",
+    "k_level": "K2",
+    "front_text": "What is the difference between regression testing and confirmation testing?",
+    "back_text": "• Confirmation Testing (Re-testing): Verifies that a specific defect has been fixed. Tests the exact scenario that caused the failure.\n\n• Regression Testing: Verifies that existing functionality has not been broken by the change. Runs a broader set of tests on unchanged areas.\n\nBoth are types of change-related testing and both are needed after any change."
+  },
+  {
+    "id": 15,
+    "chapter_id": 2,
+    "lo_reference": "FL-2.5.1",
+    "k_level": "K2",
+    "front_text": "What unique challenges does maintenance testing present compared to initial testing?",
+    "back_text": "• Unknown or outdated documentation makes test basis harder to identify\n• Need for impact analysis — what areas could the change affect?\n• Test suite may not cover the changed area\n• Legacy systems may lack automated tests\n• Risk of regression in areas that interact with changed code\n• Time pressure — changes in production need fast testing cycles"
+  },
+  {
+    "id": 16,
+    "chapter_id": 3,
+    "lo_reference": "FL-3.1.1",
+    "k_level": "K2",
+    "front_text": "What defect types can static testing find that dynamic testing cannot easily find?",
+    "back_text": "• Unreachable/dead code (never executed)\n• Missing or incorrect requirements\n• Design defects (found before code is written)\n• Coding standard violations\n• Inconsistencies in specifications\n• Security vulnerabilities in code (e.g., SQL injection patterns)\n• Insufficient test coverage definition\n\nStatic testing finds defects in work products, not just failures in running software."
+  },
+  {
+    "id": 17,
+    "chapter_id": 3,
+    "lo_reference": "FL-3.1.2",
+    "k_level": "K2",
+    "front_text": "Compare the value of static testing on different work products: requirements, code, and test plans.",
+    "back_text": "• Requirements: Finds ambiguity, inconsistency, missing requirements — cheapest point to find defects\n• Code: Finds dead code, security flaws, complexity, coding standard violations\n• Test plans: Finds missing coverage, unrealistic schedule, unclear scope\n• Design docs: Finds architectural issues before implementation\n\nGeneral rule: Earlier static testing = cheaper to fix the defect found."
+  },
+  {
+    "id": 18,
+    "chapter_id": 3,
+    "lo_reference": "FL-3.2.1",
+    "k_level": "K1",
+    "front_text": "List the review types from least to most formal.",
+    "back_text": "1. Informal Review — no defined process, may just be a colleague glance\n2. Walkthrough — author-led, educational, no formal output required\n3. Technical Review — peer-led, structured but optional formal output\n4. Inspection — most formal, trained moderator, mandatory defect logging, entry/exit criteria, metrics"
+  },
+  {
+    "id": 19,
+    "chapter_id": 3,
+    "lo_reference": "FL-3.2.2",
+    "k_level": "K2",
+    "front_text": "What are the key success factors for effective reviews?",
+    "back_text": "• Clear and documented objectives\n• Appropriate review type for the work product\n• Checklists used to focus review effort\n• Right participants with required skills\n• Adequate preparation time given to reviewers\n• Management support for the review process\n• A culture of improvement (not blame)\n• Training in review techniques"
+  },
+  {
+    "id": 20,
+    "chapter_id": 4,
+    "lo_reference": "FL-4.1.1",
+    "k_level": "K2",
+    "front_text": "What is the difference between black-box, white-box, and experience-based test design techniques?",
+    "back_text": "• Black-box (specification-based): Derives tests from external specifications (requirements, use cases). Tester doesn't need to see the code. Examples: EP, BVA, decision tables.\n\n• White-box (structure-based): Derives tests from internal code structure. Tester needs access to the code. Examples: statement coverage, branch coverage.\n\n• Experience-based: Relies on tester's knowledge and intuition. Examples: error guessing, exploratory testing, checklist-based."
+  },
+  {
+    "id": 21,
+    "chapter_id": 4,
+    "lo_reference": "FL-4.2.1",
+    "k_level": "K3",
+    "front_text": "Apply Equivalence Partitioning: A field accepts age values 18–65. Identify all equivalence partitions.",
+    "back_text": "Valid partition: 18 ≤ age ≤ 65 (e.g., test value: 30)\n\nInvalid partitions:\n• age < 18 (e.g., test value: 10) — below minimum\n• age > 65 (e.g., test value: 70) — above maximum\n• Non-numeric input (e.g., 'abc') — wrong type\n\nEP requires at least one test per partition = minimum 4 test cases."
+  },
+  {
+    "id": 22,
+    "chapter_id": 4,
+    "lo_reference": "FL-4.2.2",
+    "k_level": "K3",
+    "front_text": "Apply 2-value BVA: A discount applies when quantity is 10–100. What boundary values should be tested?",
+    "back_text": "2-value BVA tests the boundary and the value just outside:\n• Lower boundary: 9 (invalid — just below), 10 (valid — boundary)\n• Upper boundary: 100 (valid — boundary), 101 (invalid — just above)\n\nTest values: 9, 10, 100, 101\n\n3-value BVA would also add: 11 (just inside lower) and 99 (just inside upper)."
+  },
+  {
+    "id": 23,
+    "chapter_id": 4,
+    "lo_reference": "FL-4.3.1",
+    "k_level": "K3",
+    "front_text": "How do you derive test cases from a decision table?",
+    "back_text": "1. Identify all conditions (inputs) — each is a row\n2. Identify all actions (outputs/results) — each is a row\n3. Create columns for all combinations of condition values\n4. Fill in the expected action for each combination\n5. Each column = one test case\n6. Combine equivalent columns to reduce test cases\n\nWith N binary conditions: up to 2^N rules. Collapsible rules reduce this."
+  },
+  {
+    "id": 24,
+    "chapter_id": 4,
+    "lo_reference": "FL-4.4.1",
+    "k_level": "K3",
+    "front_text": "A login system has states: Logged Out, Logged In, Account Locked. What state transition tests would you design?",
+    "back_text": "Valid transitions to test:\n• Logged Out → Logged In (valid credentials)\n• Logged In → Logged Out (logout action)\n• Logged Out → Account Locked (3 failed login attempts)\n• Account Locked → Logged Out (admin reset)\n\nInvalid transitions to test:\n• Logged In → Account Locked (should not lock when already logged in)\n• Account Locked → Logged In (should not allow login without reset)\n\nTest all valid paths + at least one invalid transition per state."
+  },
+  {
+    "id": 25,
+    "chapter_id": 4,
+    "lo_reference": "FL-4.5.1",
+    "k_level": "K2",
+    "front_text": "What is branch coverage and how does it relate to statement coverage?",
+    "back_text": "• Statement Coverage = (Executable Statements Executed / Total Executable Statements) × 100%\n• Branch Coverage = (Decision Outcomes Exercised / Total Decision Outcomes (Branches)) × 100%\n\nRelationship:\n• 100% branch coverage guarantees 100% statement coverage (but not vice versa)\n• Branch coverage is stronger than statement coverage\n• Example: if(x>0) { doA(); } — testing only x=5 gives 100% statement coverage but 50% branch coverage (false branch never taken)"
+  },
+  {
+    "id": 26,
+    "chapter_id": 4,
+    "lo_reference": "FL-4.6.1",
+    "k_level": "K2",
+    "front_text": "What is exploratory testing and when is it MOST valuable?",
+    "back_text": "Exploratory testing is simultaneous test design, execution, and learning — guided by the tester's knowledge and creativity.\n\nMost valuable when:\n• There is little or no documentation\n• Time is short and coverage of broad areas needed quickly\n• New areas of a system need rapid assessment\n• When structured tests have already been run and new angles are needed\n• Complements scripted testing — finds defects scripted tests miss"
+  },
+  {
+    "id": 27,
+    "chapter_id": 5,
+    "lo_reference": "FL-5.1.1",
+    "k_level": "K2",
+    "front_text": "What is the difference between a test plan and a test strategy?",
+    "back_text": "• Test Strategy: Generic, high-level approach to testing for an organization or program. Stable and reused across projects. Covers testing principles, tool usage, and general approach.\n\n• Test Plan: Project-specific document. Describes scope, approach, resources, schedule, risks, and responsibilities for a specific project or test level. Derived from the test strategy."
+  },
+  {
+    "id": 28,
+    "chapter_id": 5,
+    "lo_reference": "FL-5.1.2",
+    "k_level": "K2",
+    "front_text": "Explain risk-based testing. How are test priorities determined?",
+    "back_text": "Risk-based testing prioritizes test effort based on product risk:\n\nRisk = Likelihood of failure × Impact of failure\n\nProcess:\n1. Identify risks (what could go wrong?)\n2. Assess likelihood and impact for each risk\n3. Prioritize tests targeting highest-risk areas first\n4. This ensures highest-risk areas are tested even if time runs short\n\nBenefits: Better coverage of critical areas, informed go/no-go decisions."
+  },
+  {
+    "id": 29,
+    "chapter_id": 5,
+    "lo_reference": "FL-5.2.1",
+    "k_level": "K2",
+    "front_text": "What metrics are used to monitor test progress?",
+    "back_text": "• Test case metrics: % planned/designed/executed, % passed/failed/blocked\n• Defect metrics: # found, # fixed, # outstanding, defect density\n• Coverage metrics: requirements coverage, code coverage achieved\n• Resource metrics: effort spent vs planned\n• Schedule metrics: actual vs planned completion dates\n\nThese are used in test monitoring to detect deviations and trigger test control actions."
+  },
+  {
+    "id": 30,
+    "chapter_id": 5,
+    "lo_reference": "FL-5.3.1",
+    "k_level": "K1",
+    "front_text": "What information is typically included in a defect report?",
+    "back_text": "A defect report typically includes:\n• Unique identifier\n• Title / short summary\n• Date discovered and author\n• Test environment details\n• Steps to reproduce\n• Expected result vs actual result\n• Severity (impact on system)\n• Priority (urgency of fix)\n• Status (new, open, fixed, closed)\n• Attachments (screenshots, logs)"
+  },
+  {
+    "id": 31,
+    "chapter_id": 5,
+    "lo_reference": "FL-5.4.1",
+    "k_level": "K2",
+    "front_text": "What is the difference between defect severity and defect priority?",
+    "back_text": "• Severity: The impact of a defect on the system functionality (technical dimension). Set by testers. Example: Critical/Major/Minor/Trivial.\n\n• Priority: The urgency with which the defect should be fixed (business dimension). Set by product owners/managers. A cosmetic defect on the homepage may have low severity but high priority.\n\nThey can differ: A crash in a rarely-used feature = high severity, low priority. A typo on the main screen = low severity, high priority."
+  },
+  {
+    "id": 32,
+    "chapter_id": 6,
+    "lo_reference": "FL-6.1.1",
+    "k_level": "K2",
+    "front_text": "What are the main benefits of test automation?",
+    "back_text": "• Reduces repetitive manual testing effort\n• Enables faster execution (especially regression suites)\n• Consistent and repeatable execution (no human error in steps)\n• Can run unattended (overnight, CI/CD pipelines)\n• Enables more frequent testing with each code change\n• Better ROI over time for stable test suites\n\nNote: Automation does NOT find defects automatically — it checks known expected results."
+  },
+  {
+    "id": 33,
+    "chapter_id": 6,
+    "lo_reference": "FL-6.1.2",
+    "k_level": "K2",
+    "front_text": "What are the main risks and limitations of test automation?",
+    "back_text": "Risks:\n• High initial investment (setup, scripting, training)\n• Maintenance burden when application changes\n• Over-reliance on automation (missing human judgment in exploratory testing)\n• False confidence if automated tests are poorly designed\n• Tool incompatibility with technologies used\n\nLimitations:\n• Cannot fully replace manual/exploratory testing\n• Usability and user experience testing is hard to automate\n• ROI analysis needed before committing to automation"
+  },
+  {
+    "id": 34,
+    "chapter_id": 6,
+    "lo_reference": "FL-6.2.1",
+    "k_level": "K1",
+    "front_text": "List the main categories of test tools and give one example of each.",
+    "back_text": "• Test Management: Jira, TestRail — tracks test cases, plans, results\n• Static Analysis: SonarQube, ESLint — analyzes code without execution\n• Test Design: Requirements tools with test design features\n• Test Execution/Automation: Selenium, Playwright, JUnit — runs tests\n• Performance Testing: JMeter, Gatling — simulates load\n• Test Data Preparation: Custom scripts, data masking tools\n• CI/CD Integration: Jenkins, GitHub Actions — triggers tests automatically"
+  },
+  {
+    "id": 35,
+    "chapter_id": 4,
+    "lo_reference": "FL-4.2.2",
+    "k_level": "K3",
+    "front_text": "📐 Mathematical Formula: 2-Value BVA for an integer range [min, max]",
+    "back_text": "Formula:\nFor interval [min, max] with resolution ε (for integers, ε = 1):\n• Lower boundary values: {min - ε, min} → {min - 1 (invalid), min (valid)}\n• Upper boundary values: {max, max + ε} → {max (valid), max + 1 (invalid)}\n• Total test values = 4 values: {min - 1, min, max, max + 1}\n\nExample for range [1, 10]:\nValues = {0, 1, 10, 11}\n• Valid: 1, 10\n• Invalid: 0, 11"
+  },
+  {
+    "id": 36,
+    "chapter_id": 4,
+    "lo_reference": "FL-4.2.2",
+    "k_level": "K3",
+    "front_text": "📐 Mathematical Formula: 3-Value BVA for an interval [min, max]",
+    "back_text": "Formula:\nTests 3 values per boundary:\n• Lower boundary: {min - ε, min, min + ε}\n• Upper boundary: {max - ε, max, max + ε}\n• Total test values = 6 values: {min - ε, min, min + ε, max - ε, max, max + ε}\n\nExample for integer range [10, 50] (ε = 1):\nValues = {9, 10, 11, 49, 50, 51}\n• Valid: 10, 11, 49, 50\n• Invalid: 9, 51"
+  },
+  {
+    "id": 37,
+    "chapter_id": 4,
+    "lo_reference": "FL-4.2.1",
+    "k_level": "K3",
+    "front_text": "📐 Easy Math: Minimum Test Cases for 100% Equivalence Partitioning (EP)",
+    "back_text": "• Rule 1 (Valid Partitions):\n  Valid inputs across multiple fields CAN be combined in a single test case.\n  → Min Valid Tests = Largest number of valid partitions in any single field.\n\n• Rule 2 (Invalid Partitions - Defect Masking):\n  Invalid values must NEVER be combined in the same test case. Each invalid partition needs its own dedicated test case.\n  → Min Total Tests = Min Valid Tests + All Invalid Partitions Added Together.\n\nExample:\nField 1 has 2 valid and 1 invalid partitions. Field 2 has 3 valid and 1 invalid partitions.\n• Min Valid Tests = Max(2, 3) = 3 test cases.\n• Min Total Tests = 3 + 1 + 1 = 5 test cases."
+  },
+  {
+    "id": 38,
+    "chapter_id": 4,
+    "lo_reference": "FL-4.3.1",
+    "k_level": "K3",
+    "front_text": "📐 Easy Math: Decision Table Rules (2^C) & Don't Care (-) Reduction",
+    "back_text": "1. True/False Conditions (The Power of 2):\n   Total Rules = 2^C (where C = number of True/False conditions).\n   Example: 3 conditions → 2^3 = 8 rules; 4 conditions → 2^4 = 16 rules.\n\n2. Multi-Valued Conditions:\n   Total Rules = (Options for Condition 1) × (Options for Condition 2) × ...\n\n3. Don't Care (-) Collapsed Rules:\n   A rule with k dashes represents 2^k individual rules.\n   Example: 2 dashes in a rule covers 2^2 = 4 rules!\n\n4. Completeness Check:\n   Sum of all covered rules across the table must equal 2^C. If sum < 2^C, conditions were missed."
+  },
+  {
+    "id": 39,
+    "chapter_id": 4,
+    "lo_reference": "FL-4.5.1",
+    "k_level": "K2",
+    "front_text": "📐 Mathematical Formulas: Statement Coverage vs Branch Coverage",
+    "back_text": "Formulas:\n1. Statement Coverage:\n   Statement Coverage = (Executable Statements Executed / Total Executable Statements) × 100%\n\n2. Branch Coverage:\n   Branch Coverage = (Decision Outcomes Exercised / Total Decision Outcomes (Branches)) × 100%\n\nKey Rules:\n• For D binary decision points (if/while), Total Decision Outcomes (Branches) = 2 × D (each decision has a True branch and a False branch).\n• 100% Branch Coverage guarantees 100% Statement Coverage.\n• 100% Statement Coverage DOES NOT guarantee 100% Branch Coverage."
+  },
+  {
+    "id": 40,
+    "chapter_id": 4,
+    "lo_reference": "FL-4.5.1",
+    "k_level": "K3",
+    "front_text": "📐 Mathematical Formula: McCabe's Cyclomatic Complexity V(G)",
+    "back_text": "Formulas to calculate Cyclomatic Complexity V(G):\n1. By Edges & Nodes:\n   V(G) = E - N + 2P  (Edges E, Nodes N, Connected Components P=1)\n\n2. By Decision Predicates:\n   V(G) = D + 1      (D = number of binary decision points: if, while, for)\n\n3. By Graph Regions:\n   V(G) = Number of enclosed planar regions + 1\n\nSignificance:\nV(G) = Minimum number of test cases required for 100% branch coverage."
+  },
+  {
+    "id": 41,
+    "chapter_id": 5,
+    "lo_reference": "FL-5.1.1",
+    "k_level": "K3",
+    "front_text": "📐 Mathematical Formula: Three-Point Estimation (PERT)",
+    "back_text": "Formulas:\nLet O = Optimistic, M = Most Likely, P = Pessimistic\n\n1. Expected Effort (E):\n   E = (O + 4M + P) / 6\n\n2. Standard Deviation (σ):\n   σ = (P - O) / 6\n\n3. Variance:\n   Variance = σ² = ((P - O) / 6)²\n\nExample:\nO = 4h, M = 10h, P = 22h:\nE = (4 + 4(10) + 22) / 6 = 66 / 6 = 11 hours\nσ = (22 - 4) / 6 = 18 / 6 = 3 hours"
+  },
+  {
+    "id": 42,
+    "chapter_id": 5,
+    "lo_reference": "FL-5.3.1",
+    "k_level": "K2",
+    "front_text": "📐 Mathematical Formula: Defect Detection Percentage (DDP)",
+    "back_text": "Formula:\nMeasures test effectiveness:\n\nDDP = [ D_test / (D_test + D_operational) ] × 100%\n\nWhere:\n• D_test = Defects discovered during testing before release\n• D_operational = Defects discovered in operation by users after release\n\nExample:\nIf 160 defects were found during system testing and 40 in production:\nDDP = [ 160 / (160 + 40) ] × 100% = (160 / 200) × 100% = 80%"
+  },
+  {
+    "id": 43,
+    "chapter_id": 5,
+    "lo_reference": "FL-5.1.2",
+    "k_level": "K2",
+    "front_text": "📐 Mathematical Formula: Product Risk Exposure (Risk Level)",
+    "back_text": "Formula:\nRisk Exposure = Likelihood × Impact\n\nWhere:\n• Likelihood (Probability of occurrence): typically scored 1 to 5\n• Impact (Severity of consequences): typically scored 1 to 5\n• Risk Level / RPN: 1 to 25\n\nUsage in Risk-Based Testing:\nTests are sorted in descending order of Risk Exposure. Highest risk tests run first."
+  }
+]

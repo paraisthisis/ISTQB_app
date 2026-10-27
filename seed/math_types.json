@@ -1,0 +1,110 @@
+[
+  {
+    "id": 1,
+    "chapter_id": 4,
+    "title": "2-Value Boundary Value Analysis (BVA)",
+    "simple_rule": "For any range [min, max], test exactly 4 numbers: the boundary itself and the number just outside it on both ends.",
+    "formula": "{ min - 1 (invalid), min (valid), max (valid), max + 1 (invalid) }",
+    "example": "For an age field accepting 18 to 65: test 17 (just below min, invalid), 18 (min, valid), 65 (max, valid), 66 (just above max, invalid). Total = 4 test cases.",
+    "tip": "If testing decimals (e.g. currency $0.00 to $50.00), step resolution is $0.01: test -$0.01, $0.00, $50.00, $50.01."
+  },
+  {
+    "id": 2,
+    "chapter_id": 4,
+    "title": "3-Value Boundary Value Analysis (BVA)",
+    "simple_rule": "Test 3 numbers around each boundary: just below, exactly on, and just above.",
+    "formula": "{ min - 1, min, min + 1 } and { max - 1, max, max + 1 } (Total: 6 numbers)",
+    "example": "For quantity 10 to 50: Lower boundary tests { 9, 10, 11 }, Upper boundary tests { 49, 50, 51 }. Total = 6 test cases.",
+    "tip": "3-Value BVA is used in safety-critical and high-risk applications to verify internal behavior near edges."
+  },
+  {
+    "id": 3,
+    "chapter_id": 4,
+    "title": "Equivalence Partitioning: Minimum Test Cases (The Golden Rule)",
+    "simple_rule": "You can combine valid inputs from multiple fields into 1 test case. But each invalid value MUST have its own separate test case to avoid defect masking!",
+    "formula": "Min Valid Tests = largest number of valid partitions in any single field | Min Total Tests = Max(Valid Partitions) + All Invalid Partitions added together",
+    "example": "Field 1 has 2 valid options (Member, Guest). Field 2 has 3 valid tiers (Bronze, Silver, Gold). To cover all valid options you need Max(2, 3) = 3 tests. If each field also has 1 invalid partition, add 1 + 1 = 2 dedicated invalid tests → Total = 3 + 2 = 5 test cases.",
+    "tip": "For exam questions asking for minimum tests to achieve 100% valid EP coverage, simply pick the maximum number of valid partitions across any input."
+  },
+  {
+    "id": 4,
+    "chapter_id": 4,
+    "title": "Decision Table Testing: The Power of 2 (2^C)",
+    "simple_rule": "Every True/False condition doubles the number of possible rule combinations. Start at 1 and multiply by 2 for each condition.",
+    "formula": "Total Rules = 2^C (where C is the number of True/False conditions)",
+    "example": "2 conditions = 2 × 2 = 4 rules. 3 conditions = 2 × 2 × 2 = 8 rules. 4 conditions = 2 × 2 × 2 × 2 = 16 rules.",
+    "tip": "If conditions have multiple options (e.g. 3 user roles and 2 payment methods), multiply their options: 3 × 2 = 6 rules."
+  },
+  {
+    "id": 5,
+    "chapter_id": 4,
+    "title": "Decision Table: Don't Care (-) Rule Reduction",
+    "simple_rule": "A dash (-) means 'this condition does not affect the outcome'. Each dash doubles the number of rules it covers.",
+    "formula": "A collapsed rule with k dashes represents 2^k primitive rules. Completeness Check: Sum of 2^k across all rules must equal 2^C.",
+    "example": "In a 3-condition table (8 rules total), a rule with two dashes covers 2^2 = 4 rules all by itself! If you have Rule 1 (2 dashes = 4 rules), Rule 2 (1 dash = 2 rules), and Rule 3 & 4 (0 dashes = 1 rule each): 4 + 2 + 1 + 1 = 8 (100% complete!).",
+    "tip": "If the sum is less than 2^C, conditions were missed. If greater, rules contradict each other."
+  },
+  {
+    "id": 6,
+    "chapter_id": 4,
+    "title": "White-Box: Statement Coverage vs. Branch Coverage",
+    "simple_rule": "Statement coverage tests executable statements. Branch coverage tests decision outcomes (both True and False branches). Every decision point has 2 branches.",
+    "formula": "Statement Coverage = (Executable Statements Executed / Total Executable Statements) × 100% | Branch Coverage = (Decision Outcomes Exercised / Total Decision Outcomes (Branches)) × 100%",
+    "example": "A module has 2 'if' conditions (4 decision outcomes total) and 10 executable lines of code. Test 1 runs 8 executable statements and 3 decision outcomes: Statement Coverage = (8 / 10) × 100% = 80%, Branch Coverage = (3 / 4) × 100% = 75%.",
+    "tip": "100% Branch Coverage ALWAYS guarantees 100% Statement Coverage. 100% Statement Coverage DOES NOT guarantee 100% Branch Coverage."
+  },
+  {
+    "id": 7,
+    "chapter_id": 4,
+    "title": "McCabe's Cyclomatic Complexity V(G)",
+    "simple_rule": "Gives the minimum number of test cases needed to achieve 100% branch coverage.",
+    "formula": "Complexity V(G) = Number of binary decisions (if, while, for) + 1",
+    "example": "A method has two 'if' statements and one 'while' loop. Decisions = 3. Complexity V(G) = 3 + 1 = 4. You need at least 4 test cases for full branch coverage.",
+    "tip": "Another common formula on exams: V(G) = Edges - Nodes + 2 (for a single program control flow graph)."
+  },
+  {
+    "id": 8,
+    "chapter_id": 5,
+    "title": "Three-Point Estimation (PERT Formula)",
+    "simple_rule": "Give the 'Most Likely' guess 4 times the importance of the best-case and worst-case guesses, then divide by 6.",
+    "formula": "Expected Effort (E) = (Optimistic + 4 × Most Likely + Pessimistic) / 6 | Spread (σ) = (Pessimistic - Optimistic) / 6",
+    "example": "Optimistic = 4 hours, Most Likely = 10 hours, Pessimistic = 22 hours. Expected Effort = (4 + 4×10 + 22) / 6 = (4 + 40 + 22) / 6 = 66 / 6 = 11 hours. Spread (Risk) = (22 - 4) / 6 = 3 hours.",
+    "tip": "68% of the time, the task will finish between E - σ and E + σ (between 8 and 14 hours in this example)."
+  },
+  {
+    "id": 9,
+    "chapter_id": 5,
+    "title": "Defect Detection Percentage (DDP)",
+    "simple_rule": "Measures what percentage of all bugs your testing discovered before the software reached users.",
+    "formula": "DDP = [ Defects found in testing / (Defects found in testing + Defects found by users in production) ] × 100%",
+    "example": "Testers found 90 defects before release. Users found 10 defects in production. DDP = [ 90 / (90 + 10) ] × 100% = (90 / 100) × 100% = 90%.",
+    "tip": "The higher the DDP percentage, the better your testing was at preventing bugs from escaping to customers."
+  },
+  {
+    "id": 10,
+    "chapter_id": 5,
+    "title": "Product Risk Level (Risk Exposure / RPN)",
+    "simple_rule": "Multiply the chance of failure by how much damage it would cause.",
+    "formula": "Risk Level = Likelihood (1 to 5) × Impact (1 to 5)",
+    "example": "Payment gateway crash: Likelihood = 4, Impact = 5 → Risk = 4 × 5 = 20 (Test First!). Minor typo on privacy policy: Likelihood = 2, Impact = 1 → Risk = 2 × 1 = 2 (Test Later).",
+    "tip": "In Risk-Based Testing, always execute tests in descending order of their Risk Exposure number."
+  },
+  {
+    "id": 11,
+    "chapter_id": 5,
+    "title": "Defect Density",
+    "simple_rule": "Calculates how many bugs were found per unit of size (typically per 1,000 lines of code [KLOC]).",
+    "formula": "Defect Density = Total Defects / Size in KLOC",
+    "example": "In a 25,000-line codebase (25 KLOC), testers discovered 50 defects. Defect Density = 50 / 25 = 2 defects per 1,000 lines of code.",
+    "tip": "Defect density helps compare quality across different modules and determine where to focus regression testing."
+  },
+  {
+    "id": 12,
+    "chapter_id": 6,
+    "title": "Test Automation Return on Investment (ROI)",
+    "simple_rule": "Automation pays off when money saved from skipping repeated manual tests exceeds the cost of scripting and maintenance.",
+    "formula": "ROI = (Cost Saved by Automation - Cost of Automation Tool & Scripts) / Cost of Automation Tool & Scripts",
+    "example": "20 manual test cycles would cost $50,000. Creating and running the test scripts costs $20,000. Net Savings = $30,000. ROI = 30,000 / 20,000 = 1.5 (150% return on investment!).",
+    "tip": "Automation yields the highest ROI for repetitive, stable regression suites run frequently on multiple configurations."
+  }
+]

@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ISTQB CTFL v4.0.1 Practice App</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<nav>
+  <div class="nav-brand">ISTQB CTFL v4.0.1</div>
+  <ul class="nav-links">
+    <li><button data-view="study"    data-testid="nav-study"   >📚 Study</button></li>
+    <li><button data-view="practice" data-testid="nav-practice">🏋 Practice</button></li>
+    <li><button data-view="theory"   data-testid="nav-theory"  >🗂 Theory Cards</button></li>
+    <li><button data-view="formulas" data-testid="nav-formulas">📐 Formulas & Math</button></li>
+    <li><button data-view="mock"     data-testid="nav-mock"    >📝 Mock Exam</button></li>
+  </ul>
+</nav>
+
+<main>
+
+  <!-- ============================================================
+       STUDY VIEW
+       ============================================================ -->
+  <section id="view-study" class="view">
+    <h1 class="page-title">Study Mode</h1>
+    <p class="page-subtitle">Select a chapter to read the syllabus content and glossary terms.</p>
+    <div id="chapter-list" class="chapter-list"></div>
+    <div id="chapter-detail" class="chapter-detail"></div>
+  </section>
+
+  <!-- ============================================================
+       PRACTICE VIEW
+       ============================================================ -->
+  <section id="view-practice" class="view">
+    <h1 class="page-title">Practice Mode</h1>
+    <p class="page-subtitle">Answer questions one by one. Instant feedback after each answer.</p>
+    <div id="practice-area"></div>
+  </section>
+
+  <!-- ============================================================
+       THEORY CARDS VIEW
+       ============================================================ -->
+  <section id="view-theory" class="view">
+    <h1 class="page-title">Theory Cards</h1>
+    <p class="page-subtitle">Flip-card flashcards based on Learning Objectives. Click a card to reveal the answer.</p>
+
+    <div class="theory-filters">
+      <select id="tc-chapter-select" aria-label="Filter by chapter">
+        <option value="">All Chapters</option>
+      </select>
+      <select id="tc-k-select" aria-label="Filter by K-level">
+        <option value="">All K-levels</option>
+        <option value="K1">K1 — Remember</option>
+        <option value="K2">K2 — Understand</option>
+        <option value="K3">K3 — Apply</option>
+      </select>
+    </div>
+
+    <div id="theory-card-area" class="theory-card-container"></div>
+  </section>
+
+  <!-- ============================================================
+       FORMULAS & MATHEMATICAL TYPES VIEW
+       ============================================================ -->
+  <section id="view-formulas" class="view">
+    <h1 class="page-title">📐 Formulas & Mathematical Reference</h1>
+    <p class="page-subtitle">Formulas, mathematical types, and interactive solvers for BVA, Equivalence Partitioning, Decision Tables, White-Box coverage, and Metrics.</p>
+
+    <!-- Sub navigation pills -->
+    <div class="math-subnav">
+      <button class="math-tab-btn active" data-tab="calculators">🔢 Interactive Calculators</button>
+      <button class="math-tab-btn" data-tab="bva-ref">🎯 BVA Mathematical Types</button>
+      <button class="math-tab-btn" data-tab="ep-ref">📊 Equivalence Partitioning</button>
+      <button class="math-tab-btn" data-tab="dt-ref">📋 Decision Tables (2^C)</button>
+      <button class="math-tab-btn" data-tab="whitebox-ref">🔬 White-Box & Cyclomatic</button>
+      <button class="math-tab-btn" data-tab="metrics-ref">📈 Estimation & Defect Metrics</button>
+    </div>
+
+    <!-- TAB 1: INTERACTIVE CALCULATORS -->
+    <div id="tab-calculators" class="math-tab-content active">
+      <div class="calc-grid">
+
+        <!-- Calculator 1: BVA -->
+        <div class="card calc-card">
+          <div class="calc-header">
+            <h3>🎯 Boundary Value Analysis (BVA) Solver</h3>
+            <span class="math-type-badge">2-Value & 3-Value</span>
+          </div>
+          <p class="calc-desc">Enter the lower and upper bounds of a valid interval [min, max] and measurement step (ε):</p>
+          <div class="calc-inputs">
+            <label>Min (Lower bound): <input type="number" id="bva-min" value="1" step="any"></label>
+            <label>Max (Upper bound): <input type="number" id="bva-max" value="10" step="any"></label>
+            <label>Step resolution (ε): <input type="number" id="bva-step" value="1" step="any"></label>
+          </div>
+          <button class="btn btn-primary" id="calc-bva-btn">Calculate BVA Test Sets</button>
+          <div class="calc-result" id="bva-result"></div>
+        </div>
+
+        <!-- Calculator 2: EP Multi-Variable -->
+        <div class="card calc-card">
+          <div class="calc-header">
+            <h3>📊 Equivalence Partitioning Test Estimator</h3>
+            <span class="math-type-badge">1-wise & Combinatorial</span>
+          </div>
+          <p class="calc-desc">Calculate minimum test cases required for 100% EP coverage across multiple input fields:</p>
+          <div class="calc-inputs">
+            <label>Valid partitions per variable (comma separated):
+              <input type="text" id="ep-valid" value="2, 2, 2" placeholder="e.g. 2, 2, 2 or 3, 4">
+            </label>
+            <label>Invalid partitions per variable (comma separated):
+              <input type="text" id="ep-invalid" value="2, 2, 2" placeholder="e.g. 2, 2, 2">
+            </label>
+          </div>
+          <button class="btn btn-primary" id="calc-ep-btn">Calculate EP Minimum Tests</button>
+          <div class="calc-result" id="ep-result"></div>
+        </div>
+
+        <!-- Calculator 3: Decision Table -->
+        <div class="card calc-card">
+          <div class="calc-header">
+            <h3>📋 Decision Table Rule Calculator (2^C)</h3>
+            <span class="math-type-badge">2^C Combinations</span>
+          </div>
+          <p class="calc-desc">Calculate total possible rules and test reduction for conditions:</p>
+          <div class="calc-inputs">
+            <label>Number of binary (True/False) conditions (C):
+              <input type="number" id="dt-conditions" value="4" min="1" max="15">
+            </label>
+            <label>Collapsed rules with Don't Care counts (comma separated k's):
+              <input type="text" id="dt-dont-cares" value="0, 1, 2" placeholder="e.g. 0, 1, 2">
+            </label>
+          </div>
+          <button class="btn btn-primary" id="calc-dt-btn">Calculate Rules & Completeness</button>
+          <div class="calc-result" id="dt-result"></div>
+        </div>
+
+        <!-- Calculator 4: White-Box & Cyclomatic Complexity -->
+        <div class="card calc-card">
+          <div class="calc-header">
+            <h3>🔬 White-Box Coverage & Cyclomatic Complexity</h3>
+            <span class="math-type-badge">Statement & Branch</span>
+          </div>
+          <p class="calc-desc">Compute coverage percentages and McCabe's cyclomatic complexity V(G):</p>
+          <div class="calc-inputs">
+            <div class="calc-subgroup">
+              <strong>Coverage:</strong>
+              <label>Executable Statements Executed / Total Executable Statements:
+                <div class="inline-inputs">
+                  <input type="number" id="wb-stmt-exec" value="18" min="0"> / <input type="number" id="wb-stmt-total" value="20" min="1">
+                </div>
+              </label>
+              <label>Decision Outcomes Exercised / Total Decision Outcomes (Branches):
+                <div class="inline-inputs">
+                  <input type="number" id="wb-branch-exec" value="6" min="0"> / <input type="number" id="wb-branch-total" value="8" min="1">
+                </div>
+              </label>
+            </div>
+            <div class="calc-subgroup">
+              <strong>Cyclomatic Complexity V(G):</strong>
+              <label>Binary Decisions (D) (if/while):
+                <input type="number" id="wb-decisions" value="3" min="0">
+              </label>
+            </div>
+          </div>
+          <button class="btn btn-primary" id="calc-wb-btn">Calculate Coverage & V(G)</button>
+          <div class="calc-result" id="wb-result"></div>
+        </div>
+
+        <!-- Calculator 5: Defect Detection Percentage (DDP) & Density -->
+        <div class="card calc-card">
+          <div class="calc-header">
+            <h3>📈 Defect Detection Percentage (DDP) & Density</h3>
+            <span class="math-type-badge">Quality Metrics</span>
+          </div>
+          <p class="calc-desc">Evaluate test effectiveness and defect concentration:</p>
+          <div class="calc-inputs">
+            <label>Defects found in testing (D_test):
+              <input type="number" id="ddp-test" value="85" min="0">
+            </label>
+            <label>Defects found in operation / production (D_prod):
+              <input type="number" id="ddp-prod" value="15" min="0">
+            </label>
+            <label>Size of software (KLOC / Function Points):
+              <input type="number" id="ddp-size" value="10" min="1">
+            </label>
+          </div>
+          <button class="btn btn-primary" id="calc-ddp-btn">Calculate DDP & Density</button>
+          <div class="calc-result" id="ddp-result"></div>
+        </div>
+
+        <!-- Calculator 6: Three-Point Estimation (PERT) -->
+        <div class="card calc-card">
+          <div class="calc-header">
+            <h3>⏱ Three-Point Estimation (PERT) Calculator</h3>
+            <span class="math-type-badge">(O + 4M + P) / 6</span>
+          </div>
+          <p class="calc-desc">Calculate weighted average expected effort and risk standard deviation:</p>
+          <div class="calc-inputs">
+            <label>Optimistic effort (O): <input type="number" id="pert-o" value="6" min="0" step="any"></label>
+            <label>Most likely effort (M): <input type="number" id="pert-m" value="12" min="0" step="any"></label>
+            <label>Pessimistic effort (P): <input type="number" id="pert-p" value="24" min="0" step="any"></label>
+          </div>
+          <button class="btn btn-primary" id="calc-pert-btn">Calculate PERT Estimates</button>
+          <div class="calc-result" id="pert-result"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- TAB 2: BVA REFERENCE -->
+    <div id="tab-bva-ref" class="math-tab-content">
+      <div class="card formula-card">
+        <h2>🎯 Boundary Value Analysis (BVA) Mathematical Types & Examples</h2>
+        <p>BVA tests the extreme boundaries and immediate neighbors of equivalence classes where defect probabilities peak.</p>
+
+        <div class="math-callout math-callout-info">
+          <span>💡 <strong>Why do boundaries fail?</strong> Developers frequently make "off-by-one" errors (e.g. typing <code>&lt;</code> instead of <code>&le;</code>, starting loops at 0 vs 1, or fencepost errors). Mathematical boundaries represent phase shifts where behavior changes abruptly.</span>
+        </div>
+
+        <div class="formula-block">
+          <h4>Mathematical Definition of Interval Boundaries</h4>
+          <p>Given interval <code>[min, max]</code> with measurement resolution <code>ε</code> (integers: <code>ε = 1</code>, currency/decimals: <code>ε = 0.01</code>):</p>
+          <div class="math-table-wrap">
+            <table class="math-table">
+              <thead><tr><th>BVA Type</th><th>Formula Test Set</th><th>Values Count</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><strong>2-Value BVA (ISTQB CTFL standard)</strong></td>
+                  <td><code>{min - ε, min, max, max + ε}</code></td>
+                  <td><strong>4 values</strong> per 2-sided interval (2 per boundary)</td>
+                  <td>Tests the boundary value itself and its immediately adjacent outside value.</td>
+                </tr>
+                <tr>
+                  <td><strong>3-Value BVA (Safety-critical)</strong></td>
+                  <td><code>{min - ε, min, min + ε, max - ε, max, max + ε}</code></td>
+                  <td><strong>6 values</strong> per 2-sided interval (3 per boundary)</td>
+                  <td>Tests immediately below, exactly on, and immediately above each boundary.</td>
+                </tr>
+                <tr>
+                  <td><strong>One-sided Boundary (x ≥ min)</strong></td>
+                  <td><code>{min - ε (invalid), min (valid)}</code></td>
+                  <td><strong>2 values</strong></td>
+                  <td>For unbounded limits like minimum driving age ≥ 18.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="formula-block">
+          <h4>BVA Coverage Formula</h4>
+          <div class="math-display-card">
+            <span class="math-var">BVA Coverage</span>
+            <span class="math-op">=</span>
+            <div class="math-fraction">
+              <div class="math-num">Identified Boundary Values Exercised</div>
+              <div class="math-denom">Total Identified Boundary Values</div>
+            </div>
+            <span class="math-op">×</span>
+            <span class="math-unit">100%</span>
+          </div>
+        </div>
+
+        <!-- Real-World Relatable Example -->
+        <div class="math-example-box realworld">
+          <div class="math-example-header">
+            <h4 class="math-example-title">🚗 Everyday Real-Life Example: Highway Speed Limits [50, 120] km/h</h4>
+            <span class="math-badge-realworld">Everyday Logic</span>
+          </div>
+          <p>A motorway enforcement system states: <em>"Vehicles must drive between 50 km/h and 120 km/h inclusive. Driving below 50 impedes traffic; driving above 120 is speeding."</em></p>
+
+          <div class="math-steps-container">
+            <div class="math-step-card">
+              <div class="math-step-badge">1</div>
+              <div class="math-step-body">
+                <div class="math-step-title">Identify the Interval & Step Resolution</div>
+                <div class="math-step-content">
+                  <div>• <code>min = 50 km/h</code>, <code>max = 120 km/h</code></div>
+                  <div>• Speedometers measure in whole integers: step resolution <code>ε = 1 km/h</code>.</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="math-step-card">
+              <div class="math-step-badge">2</div>
+              <div class="math-step-body">
+                <div class="math-step-title">2-Value BVA (ISTQB Standard)</div>
+                <div class="math-step-content">
+                  <div>• Lower Boundary (50): <span class="math-pill math-pill-invalid">49 km/h (Ticket: Too slow)</span> and <span class="math-pill math-pill-valid">50 km/h (Valid minimum)</span></div>
+                  <div>• Upper Boundary (120): <span class="math-pill math-pill-valid">120 km/h (Valid maximum)</span> and <span class="math-pill math-pill-invalid">121 km/h (Ticket: Speeding)</span></div>
+                  <div>→ <strong>Complete Test Set:</strong> <code>{49, 50, 120, 121}</code> (4 tests achieve 100% 2-value BVA coverage).</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="math-step-card">
+              <div class="math-step-badge">3</div>
+              <div class="math-step-body">
+                <div class="math-step-title">3-Value BVA (Safety-Critical Systems)</div>
+                <div class="math-step-content">
+                  <div>• Around Min (50): <span class="math-pill math-pill-invalid">49 (invalid)</span>, <span class="math-pill math-pill-valid">50 (valid)</span>, <span class="math-pill math-pill-valid">51 (valid)</span></div>
+                  <div>• Around Max (120): <span class="math-pill math-pill-valid">119 (valid)</span>, <span class="math-pill math-pill-valid">120 (valid)</span>, <span class="math-pill math-pill-invalid">121 (invalid)</span></div>
+                  <div>→ <strong>Complete Test Set:</strong> <code>{49, 50, 51, 119, 120, 121}</code> (6 tests).</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="math-step-card">
+              <div class="math-step-badge">4</div>
+              <div class="math-step-body">
+                <div class="math-step-title">Decimal Precision Step (Banking Wire Transfer)</div>
+                <div class="math-step-content">
+                  <div>• Free wire transfers between €1.00 and €5,000.00 inclusive (<code>ε = €0.01</code>):</div>
+                  <div>• Test Values: <span class="math-pill math-pill-invalid">€0.99</span>, <span class="math-pill math-pill-valid">€1.00</span>, <span class="math-pill math-pill-valid">€5,000.00</span>, <span class="math-pill math-pill-invalid">€5,000.01</span>.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="math-takeaway-card">
+            <span class="math-takeaway-icon">🎯</span>
+            <div><strong>Key Takeaway:</strong> 2-Value BVA tests exactly 2 values per boundary: the boundary value itself and its immediately adjacent outside value.</div>
+          </div>
+        </div>
+
+        <!-- Official ISTQB Exam Walkthrough #1 -->
+        <div class="math-example-box exam">
+          <div class="math-example-header">
+            <h4 class="math-example-title">🎓 Official ISTQB Exam Question Walkthrough: Password Length [6, 12]</h4>
+            <span class="math-badge-exam">Sample Exam A — Q16</span>
+          </div>
+
+          <div class="exam-stem-box">
+            <div class="exam-stem-label">Official Exam Stem:</div>
+            <p class="exam-stem-text">"A login form accepts passwords between 6 and 12 characters. Which of the following sets of test values BEST applies boundary value analysis?"</p>
+          </div>
+
+          <div class="math-steps-container">
+            <div class="math-step-card">
+              <div class="math-step-badge">1</div>
+              <div class="math-step-body">
+                <div class="math-step-title">Find the Valid Boundary Range</div>
+                <div class="math-step-content">
+                  <div>The valid password length is <code>[6, 12]</code> characters. The resolution is 1 character (<code>ε = 1</code>).</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="math-step-card">
+              <div class="math-step-badge">2</div>
+              <div class="math-step-body">
+                <div class="math-step-title">Calculate the 2-Value BVA Test Points</div>
+                <div class="math-step-content">
+                  <div>• Lower boundary (6): <code>6 - 1 = 5</code> (just below, invalid) and <code>6</code> (on boundary, valid).</div>
+                  <div>• Upper boundary (12): <code>12</code> (on boundary, valid) and <code>12 + 1 = 13</code> (just above, invalid).</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="math-answer-box">
+            <span class="math-answer-label">✅ Correct Answer / Solution:</span>
+            <div>The correct test set is <strong>{5, 6, 12, 13}</strong>. Testing these 4 values exercises both outer edges where string length validators fail.</div>
+          </div>
+
+          <div class="math-callout math-callout-warning">
+            <span>⚠️ <strong>Common Exam Trap:</strong> Do not select <code>{6, 9, 12}</code>! 9 is an equivalence partition center value, not a boundary. In BVA, the immediately outside values (5 and 13) are mandatory to detect off-by-one errors.</span>
+          </div>
+        </div>
+
+        <!-- Official ISTQB Exam Walkthrough #2 -->
+        <div class="math-example-box exam">
+          <div class="math-example-header">
+            <h4 class="math-example-title">🎓 Official ISTQB Exam Question Walkthrough: Cold Storage Temperature</h4>
+            <span class="math-badge-exam">Sample Exam D — Q141</span>
+          </div>
+
+          <div class="exam-stem-box">
+            <div class="exam-stem-label">Official Exam Stem:</div>
+            <p class="exam-stem-text">"A temperature control system receives temperature in full degrees Celsius. If temperature is between 0 and 2 degrees inclusive, it displays 'temperature OK'. For lower: 'temperature too low'; for higher: 'temperature too high'. Using 2-value BVA, which set provides highest coverage?"</p>
+          </div>
+
+          <div class="math-steps-container">
+            <div class="math-step-card">
+              <div class="math-step-badge">1</div>
+              <div class="math-step-body">
+                <div class="math-step-title">Identify Equivalence Partitions</div>
+                <div class="math-step-content">
+                  <div>Three partitions exist: <code>{..., -2, -1}</code> (Too Low), <code>{0, 1, 2}</code> (OK), and <code>{3, 4, ...}</code> (Too High).</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="math-step-card">
+              <div class="math-step-badge">2</div>
+              <div class="math-step-body">
+                <div class="math-step-title">Identify Boundary Transition Pairs</div>
+                <div class="math-step-content">
+                  <div>• Boundary between Too Low and OK: <span class="math-pill math-pill-invalid">-1°C</span> and <span class="math-pill math-pill-valid">0°C</span>.</div>
+                  <div>• Boundary between OK and Too High: <span class="math-pill math-pill-valid">2°C</span> and <span class="math-pill math-pill-invalid">3°C</span>.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="math-answer-box">
+            <span class="math-answer-label">✅ Correct Answer / Solution:</span>
+            <div>The set <strong>{-1, 0, 2, 3}</strong> covers all boundary transitions across the 3 partitions with 100% 2-value BVA coverage.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: EP REFERENCE -->
+    <div id="tab-ep-ref" class="math-tab-content">
+      <div class="card formula-card">
+        <h2>📊 Equivalence Partitioning (EP) Calculation Cheats & Examples</h2>
+        <p>Divides inputs into equivalence groups where all values are expected to produce the same outcome. Testing one value from each group tests that entire partition.</p>
+
+        <div class="math-callout math-callout-info">
+          <span>💡 <strong>Why does EP save time?</strong> If an algorithm calculates sales tax correctly for an order of $50, testing $51, $52, and $53 is redundant. EP ensures you test every distinct behavior exactly once without wasting execution time.</span>
+        </div>
+
+        <div class="formula-block">
+          <h4>Partition Categories</h4>
+          <ul>
+            <li><strong>Continuous Range (e.g. Allowed Age 18 to 65):</strong>
+              <ul>
+                <li>Valid Partition: Values inside the range (18 to 65) → 1 valid partition</li>
+                <li>Invalid Lower Partition: Values too low (less than 18) → 1 invalid partition</li>
+                <li>Invalid Upper Partition: Values too high (greater than 65) → 1 invalid partition</li>
+                <li><em>Rule: Continuous ranges always produce 1 Valid and 2 Invalid partitions (3 total).</em></li>
+              </ul>
+            </li>
+            <li><strong>Choice Lists / Discrete Options (e.g. Payment: Visa, PayPal, Cash):</strong>
+              <ul>
+                <li>Valid Partitions: Each recognized option is 1 valid partition (3 valid partitions)</li>
+                <li>Invalid Partition: Any unrecognized choice (e.g. Bitcoin) → 1 invalid partition</li>
+                <li><em>Rule: A list of k choices produces k Valid partitions and 1 Invalid partition (k + 1 total).</em></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+
+        <div class="formula-block">
+          <h4>Minimum Test Cases Formulas (The Multi-Variable Rules)</h4>
+          <div class="math-display-card">
+            <span class="math-var">Min Valid Tests</span>
+            <span class="math-op">=</span>
+            <span class="math-val">Largest Number of Valid Partitions in Any Single Field</span>
+          </div>
+          <div class="math-display-card">
+            <span class="math-var">Min Total Tests</span>
+            <span class="math-op">=</span>
+            <span class="math-val">Min Valid Tests + All Invalid Partitions Added Together</span>
+          </div>
+          <div class="math-callout math-callout-warning">
+            <span>⚠️ <strong>The Golden ISTQB Rule (Defect Masking):</strong> Valid partitions from multiple inputs CAN be combined in a single test case. Invalid partitions must NEVER be combined in the same test case because one defect could mask another!</span>
+          </div>
+        </div>
+
+        <!-- Real-World Relatable Example -->
+        <div class="math-example-box realworld">
+          <div class="math-example-header">
+            <h4 class="math-example-title">🎬 Everyday Real-Life Example: Cinema Ticket Age Tiers</h4>
+            <span class="math-badge-realworld">Everyday Logic</span>
+          </div>
+          <p>A cinema ticket kiosk calculates discounts based on customer age:</p>
+
+          <div class="math-table-wrap">
+            <table class="math-table">
+              <thead><tr><th>Partition Name</th><th>Age Range</th><th>Classification</th><th>Single Representative Test Value</th></tr></thead>
+              <tbody>
+                <tr><td>Negative Age</td><td><code>age &lt; 0</code></td><td><span class="math-pill math-pill-invalid">Invalid Low</span></td><td><code>-5</code></td></tr>
+                <tr><td>Child Tier ($8)</td><td><code>0 &le; age &le; 12</code></td><td><span class="math-pill math-pill-valid">Valid 1</span></td><td><code>8</code></td></tr>
+                <tr><td>Teen Tier ($10)</td><td><code>13 &le; age &le; 17</code></td><td><span class="math-pill math-pill-valid">Valid 2</span></td><td><code>15</code></td></tr>
+                <tr><td>Adult Tier ($15)</td><td><code>18 &le; age &le; 64</code></td><td><span class="math-pill math-pill-valid">Valid 3</span></td><td><code>35</code></td></tr>
+                <tr><td>Senior Tier ($11)</td><td><code>65 &le; age &le; 120</code></td><td><span class="math-pill math-pill-valid">Valid 4</span></td><td><code>72</code></td></tr>
+                <tr><td>Improbable Age</td><td><code>age &gt; 120</code></td><td><span class="math-pill math-pill-invalid">Invalid High</span></td><td><code>135</code></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="math-takeaway-card">
+            <span class="math-takeaway-icon">🎯</span>
+            <div><strong>Key Takeaway:</strong> Out of millions of possible ages, exactly <strong>6 test cases</strong> give 100% Equivalence Partitioning coverage!</div>
+          </div>
+        </div>
+
+        <!-- Official ISTQB Exam Walkthrough #1 -->
+        <div class="math-example-box exam">
+          <div class="math-example-header">
+            <h4 class="math-example-title">🎓 Official ISTQB Exam Question Walkthrough: Cinema Ticket BY & CY</h4>
+            <span class="math-badge-exam">Sample Exam D — Q140</span>
+          </div>
+
+          <div class="exam-stem-box">
+            <div class="exam-stem-label">Official Exam Stem:</div>
+            <p class="exam-stem-text">"Difference D = CY (Current Year) – BY (Birth Year). If D &lt; 0: Error; If 0 &le; D &lt; 18: Student discount; If 18 &le; D &lt; 65: No discount; If D &ge; 65: Pensioner discount. Your test suite already has: (1) BY=1990, CY=2020 [No discount] and (2) BY=2030, CY=2029 [Error]. Which test inputs should be added to achieve full valid EP coverage?"</p>
+          </div>
+
+          <div class="math-steps-container">
+            <div class="math-step-card">
+              <div class="math-step-badge">1</div>
+              <div class="math-step-body">
+                <div class="math-step-title">Analyze Existing Test Coverage</div>
+                <div class="math-step-content">
+                  <div>• <code>CY - BY = 2020 - 1990 = 30</code> → covers the <em>"No discount"</em> partition.</div>
+                  <div>• <code>CY - BY = 2029 - 2030 = -1</code> → covers the <em>"Error message"</em> partition.</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="math-step-card">
+              <div class="math-step-badge">2</div>
+              <div class="math-step-body">
+                <div class="math-step-title">Identify the Missing Valid Partitions</div>
+                <div class="math-step-content">
+                  <div>• Missing Partition 1: <em>"Student discount"</em> (<code>0 &le; D &lt; 18</code>).</div>
+                  <div>• Missing Partition 2: <em>"Pensioner discount"</em> (<code>D &ge; 65</code>).</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="math-step-card">
+              <div class="math-step-badge">3</div>
+              <div class="math-step-body">
+                <div class="math-step-title">Select Matching Test Data</div>
+                <div class="math-step-content">
+                  <div>• For Student: <code>BY = 2000, CY = 2000</code> → <code>D = 0</code> (covers Student discount).</div>
+                  <div>• For Pensioner: <code>BY = 1900, CY = 1965</code> → <code>D = 65</code> (covers Pensioner discount).</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="math-answer-box">
+            <span class="math-answer-label">✅ Correct Answer / Solution:</span>
+            <div>Add <code>BY = 2000, CY = 2000</code> (Student discount) and <code>BY = 1900, CY = 1965</code> (Pensioner discount) to achieve 100% valid EP coverage.</div>
+          </div>
+        </div>
+
+        <!-- Official ISTQB Exam Walkthrough #2 -->
+        <div class="math-example-box exam">
+          <div class="math-example-header">
+            <h4 class="math-example-title">🎓 Official ISTQB Exam Question Walkthrough: Multi-Field E-Commerce Checkout</h4>
+            <span class="math-badge-exam">Sample Exam A — Q17 & Sample Exam B — Q60</span>
+          </div>
+
+          <div class="exam-stem-box">
+            <div class="exam-stem-label">Official Scenario:</div>
+            <p class="exam-stem-text">"An e-commerce form has 3 input fields: User Type (Registered / Guest), Discount Code (Yes / No), and Cart Value (Above threshold / Below threshold). How many test cases are required for minimum valid EP coverage vs minimum total tests?"</p>
+          </div>
+
+          <div class="math-steps-container">
+            <div class="math-step-card">
+              <div class="math-step-badge">1</div>
+              <div class="math-step-body">
+                <div class="math-step-title">Valid Tests Combination (Max Rule)</div>
+                <div class="math-step-content">
+                  <div>Field 1 has 2 valid options, Field 2 has 2 valid options, Field 3 has 2 valid options. Because valid inputs can be tested simultaneously:</div>
+                  <div><code>Min Valid Tests = Max(2, 2, 2) = 2 tests</code> (e.g. TC1: [Registered, Yes, Above], TC2: [Guest, No, Below]).</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="math-step-card">
+              <div class="math-step-badge">2</div>
+              <div class="math-step-body">
+                <div class="math-step-title">Invalid Tests Isolation (Defect Masking Rule)</div>
+                <div class="math-step-content">
+                  <div>If each field has 1 invalid partition (e.g. invalid user, invalid coupon, negative cart):</div>
+                  <div><code>Min Total Tests = 2 (Valid) + 1 + 1 + 1 (Invalids) = 5 tests</code>.</div>
+                  <div style="color:#b91c1c;font-weight:600;margin-top:0.25rem;">Never test two invalid inputs in the same test case!</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="math-takeaway-card">
+            <span class="math-takeaway-icon">⚠️</span>
+            <div><strong>Defect Masking Rule:</strong> Valid inputs can be combined in shared tests. Invalid inputs must each be tested alone with valid values for all other fields.</div>
+          </div>
+        </div>
+
+        <div class="formula-block">
+          <h4>Exhaustive Combinatorial Tests (Cartesian Product)</h4>
+          <div class="math-display-card">
+            <span class="math-var">Total Combinations</span>
+            <span class="math-op">=</span>
+            <span class="math-val">(Total Partitions of Field 1) × (Total Partitions of Field 2) × …</span>
+          </div>
+          <p style="margin-top:0.5rem;">For 3 fields each having 2 valid + 1 invalid = 3 partitions:</p>
+          <div class="math-display-card">
+            <span class="math-var">Total Combinations</span>
+            <span class="math-op">=</span>
+            <span class="math-val">3 × 3 × 3 = 27 test cases</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 4: DECISION TABLES REFERENCE -->
+    <div id="tab-dt-ref" class="math-tab-content">
+      <div class="card formula-card">
+        <h2>📋 Decision Table Testing Calculation Cheats & Examples</h2>
+        <p>Ideal for complex business logic where system outcomes depend on combinations of several conditions.</p>
+
+        <div class="math-callout math-callout-info">
+          <span>💡 <strong>What is a Decision Table?</strong> It documents combinations of inputs (Condition Stubs) and their expected outputs (Action Stubs). Each column represents one distinct business rule.</span>
+        </div>
+
+        <div class="formula-block">
+          <h4>Maximum Rules Formulas</h4>
+          <div class="math-display-card">
+            <span class="math-var">Total Rules (Binary True/False)</span>
+            <span class="math-op">=</span>
+            <span class="math-val">2<sup>C</sup></span>
+            <span class="math-desc">(C = Number of True/False Conditions)</span>
+          </div>
+          <div class="math-display-card">
+            <span class="math-var">Total Rules (Multi-Option)</span>
+            <span class="math-op">=</span>
+            <span class="math-val">(Options for Condition 1) × (Options for Condition 2) × …</span>
+          </div>
+          <p class="math-note"><strong>The Power of 2:</strong> Each True/False condition doubles the number of rules: 1 condition = 2 rules, 2 conditions = 4 rules, 3 conditions = 8 rules, 4 conditions = 16 rules, 5 conditions = 32 rules.</p>
+        </div>
+
+        <!-- Real-World Relatable Example -->
+        <div class="math-example-box realworld">
+          <div class="math-example-header">
+            <h4 class="math-example-title">🍕 Everyday Real-Life Example: Pizza Delivery & Free Shipping Rules</h4>
+            <span class="math-badge-realworld">Everyday Logic</span>
+          </div>
+          <p>A pizzeria offers free delivery based on 3 binary conditions (<code>C = 3 &rarr; 2³ = 8 rules</code>):</p>
+          <ul style="margin-left:1.2rem;margin-bottom:0.75rem;">
+            <li><code>C1</code>: Order Value &ge; $30 (True / False)</li>
+            <li><code>C2</code>: Customer is VIP Member (True / False)</li>
+            <li><code>C3</code>: Delivery Distance &le; 5 miles (True / False)</li>
+          </ul>
+
+          <div class="math-table-wrap">
+            <table class="math-table">
+              <thead>
+                <tr><th>Condition / Action</th><th>R1</th><th>R2</th><th>R3</th><th>R4</th><th>R5</th><th>R6</th><th>R7</th><th>R8</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><strong>C1: Order &ge; $30?</strong></td><td>T</td><td>T</td><td>T</td><td>T</td><td>F</td><td>F</td><td>F</td><td>F</td></tr>
+                <tr><td><strong>C2: VIP Member?</strong></td><td>T</td><td>T</td><td>F</td><td>F</td><td>T</td><td>T</td><td>F</td><td>F</td></tr>
+                <tr><td><strong>C3: Distance &le; 5 mi?</strong></td><td>T</td><td>F</td><td>T</td><td>F</td><td>T</td><td>F</td><td>T</td><td>F</td></tr>
+                <tr style="background:#f8fafc;font-weight:700;">
+                  <td><strong>Action Result</strong></td>
+                  <td><span class="math-pill math-pill-valid">Free Delivery</span></td>
+                  <td><span class="math-pill math-pill-invalid">Deny (&gt;5 mi)</span></td>
+                  <td><span class="math-pill math-pill-valid">Free Delivery</span></td>
+                  <td><span class="math-pill math-pill-invalid">Deny (&gt;5 mi)</span></td>
+                  <td><span class="math-pill math-pill-valid">Free Delivery</span></td>
+                  <td><span class="math-pill math-pill-invalid">Deny (&gt;5 mi)</span></td>
+                  <td><span class="math-pill math-pill-covered">$5 Surcharge</span></td>
+                  <td><span class="math-pill math-pill-invalid">Deny (&gt;5 mi)</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="math-steps-container">
+            <div class="math-step-card">
+              <div class="math-step-badge">💡</div>
+              <div class="math-step-body">
+                <div class="math-step-title">Collapsing Rules with Don't Care (-)</div>
+                <div class="math-step-content">
+                  <div>Whenever <code>Distance &le; 5 mi is FALSE</code> (Rules 2, 4, 6, 8), the action is ALWAYS "Deny Delivery"!</div>
+                  <div>Instead of 4 separate rules, we write <strong>1 collapsed rule</strong>: <code>C1 = -, C2 = -, C3 = F &rarr; Deny Delivery</code>.</div>
+                  <div>Here <code>k = 2 dashes</code>, so it covers <code>2² = 4 rules</code>!</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="formula-block">
+          <h4>Rule Reduction & Don't Care (-) Rules</h4>
+          <p>A dash (<code>-</code>) means "this condition does not affect the outcome". Each dash doubles the number of underlying rules covered by that single rule:</p>
+          <div class="math-display-card">
+            <span class="math-var">Rules Covered by 1 Collapsed Rule</span>
+            <span class="math-op">=</span>
+            <span class="math-val">2<sup>k</sup></span>
+            <span class="math-desc">(k = Number of dashes in that rule)</span>
+          </div>
+          <div class="math-display-card">
+            <span class="math-var">Completeness Check</span>
+            <span class="math-op">:</span>
+            <span class="math-val">Sum of all covered rules must equal 2<sup>C</sup></span>
+          </div>
+          <ul style="margin-top:0.75rem;">
+            <li>If sum &lt; 2<sup>C</sup>: Table is <strong>incomplete</strong> (certain input combinations were forgotten).</li>
+            <li>If sum &gt; 2<sup>C</sup>: Table is <strong>inconsistent/contradictory</strong> (rules overlap and give conflicting actions).</li>
+            <li>If sum = 2<sup>C</sup>: Table is <strong>100% complete and consistent</strong>.</li>
+          </ul>
+        </div>
+
+        <!-- Official ISTQB Exam Walkthrough #1 -->
+        <div class="math-example-box exam">
+          <div class="math-example-header">
+            <h4 class="math-example-title">🎓 Official ISTQB Exam Question Walkthrough: Atherosclerosis Risk Coverage</h4>
+            <span class="math-badge-exam">Sample Exam B — Q62</span>
+          </div>
+
+          <div class="exam-stem-box">
+            <div class="exam-stem-label">Official Exam Stem:</div>
+            <p class="exam-stem-text">"A decision table contains 5 rules for determining atherosclerosis risk. You designed test cases TC1 through TC5. What is the decision table coverage achieved?"</p>
+          </div>
+
+          <div class="math-steps-container">
+            <div class="math-step-card">
+              <div class="math-step-badge">1</div>
+              <div class="math-step-body">
+                <div class="math-step-title">Trace Each Test Case to its Rule Column</div>
+                <div class="math-step-content">
+                  <div>• <code>TC1</code>: Cholesterol = 125, BP = 141 &rarr; matches <strong>Rule 4</strong>.</div>
+                  <div>• <code>TC2</code>: Cholesterol = 200, BP = 201 &rarr; matches <strong>Rule 4</strong> (duplicate rule execution!).</div>
+                  <div>• <code>TC3</code>: Cholesterol = 124, BP = 201 &rarr; matches <strong>Rule 2</strong>.</div>
+                  <div>• <code>TC4</code>: Cholesterol = 109, BP = 200 &rarr; matches <strong>Rule 2</strong> (duplicate rule execution!).</div>
+                  <div>• <code>TC5</code>: Cholesterol = 201, BP = 140 &rarr; matches <strong>Rule 5</strong>.</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="math-step-card">
+              <div class="math-step-badge">2</div>
+              <div class="math-step-body">
+                <div class="math-step-title">Count Unique Rules Covered</div>
+                <div class="math-step-content">
+                  <div>Out of 5 total rules, tests exercised {Rule 2, Rule 4, Rule 5} = <strong>3 unique rules</strong>.</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="math-step-card">
+              <div class="math-step-badge">3</div>
+              <div class="math-step-body">
+                <div class="math-step-title">Calculate Coverage Percentage</div>
+                <div class="math-step-content">
+                  <div class="math-display-card" style="margin-top:0.2rem;">
+                    <span class="math-var">DT Coverage</span>
+                    <span class="math-op">=</span>
+                    <div class="math-fraction">
+                      <div class="math-num">3 unique rules exercised</div>
+                      <div class="math-denom">5 total rules in table</div>
+                    </div>
+                    <span class="math-op">×</span>
+                    <span class="math-unit">100%</span>
+                    <span class="math-op">=</span>
+                    <span class="math-val">60%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="math-answer-box">
+            <span class="math-answer-label">✅ Correct Answer / Solution:</span>
+            <div><strong>60% Decision Table Coverage</strong> is achieved by the test suite.</div>
+          </div>
+        </div>
+
+        <!-- Official ISTQB Exam Walkthrough #2 -->
+        <div class="math-example-box exam">
+          <div class="math-example-header">
+            <h4 class="math-example-title">🎓 Official ISTQB Exam Question Walkthrough: Complete Table Rule Calculation</h4>
+            <span class="math-badge-exam">Sample Exam A — Q36 & Sample Exam C — Q102</span>
+          </div>
+
+          <div class="exam-stem-box">
+            <div class="exam-stem-label">Official Exam Stem:</div>
+            <p class="exam-stem-text">"A function has 2 conditions (A and B), each True or False. A complete decision table with all unique condition combinations requires how many rules?"</p>
+          </div>
+
+          <div class="math-steps-container">
+            <div class="math-step-card">
+              <div class="math-step-badge">1</div>
+              <div class="math-step-body">
+                <div class="math-step-title">Apply Binary Combinatorial Formula</div>
+                <div class="math-step-content">
+                  <div>Apply formula <code>2<sup>C</sup></code> where <code>C = 2</code>: <code>2² = 2 × 2 = 4 rules</code> (TT, TF, FT, FF).</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="math-step-card">
+              <div class="math-step-badge">2</div>
+              <div class="math-step-body">
+                <div class="math-step-title">Scaling with Additional Conditions</div>
+                <div class="math-step-content">
+                  <div>For 3 binary conditions: <code>2³ = 8 rules</code>. For 4 binary conditions: <code>2⁴ = 16 rules</code>.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="math-answer-box">
+            <span class="math-answer-label">✅ Correct Answer / Solution:</span>
+            <div>A complete decision table requires exactly <strong>4 rules</strong> for 2 binary conditions.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 5: WHITE-BOX REFERENCE -->
+    <div id="tab-whitebox-ref" class="math-tab-content">
+      <div class="card formula-card">
+        <h2>🔬 White-Box Coverage & Cyclomatic Complexity Examples</h2>
+        <p>White-box testing derives test cases from the internal structure, source code, and control flow of the test object.</p>
+
+        <div class="formula-block">
+          <h4>Coverage Formulas</h4>
+          <div class="math-display-card">
+            <span class="math-var">Statement Coverage</span>
+            <span class="math-op">=</span>
+            <div class="math-fraction">
+              <div class="math-num">Executable Statements Executed</div>
+              <div class="math-denom">Total Executable Statements</div>
+            </div>
+            <span class="math-op">×</span>
+            <span class="math-unit">100%</span>
+          </div>
+
+          <div class="math-display-card">
+            <span class="math-var">Branch Coverage</span>
+            <span class="math-op">=</span>
+            <div class="math-fraction">
+              <div class="math-num">Decision Outcomes Exercised</div>
+              <div class="math-denom">Total Decision Outcomes (Branches)</div>
+            </div>
+            <span class="math-op">×</span>
+            <span class="math-unit">100%</span>
+          </div>
+
+          <p>For <code>D</code> binary decision constructs (e.g. <code>if</code>, <code>while</code>):</p>
+          <div class="math-display-card">
+            <span class="math-var">Total Decision Branches</span>
+            <span class="math-op">=</span>
+            <span class="math-val">2 × D</span>
+            <span class="math-desc">(Every decision has exactly 2 branches: True and False)</span>
+          </div>
+        </div>
+
+        <!-- The Classic "Single If" Trap -->
+        <div class="math-example-box trap">
+          <div class="math-example-header">
+            <h4 class="math-example-title">⚠️ The Classic "Single If" Trap: Why 100% Statement Coverage is NOT Enough!</h4>
+            <span class="math-badge-trap">Core ISTQB Concept</span>
+          </div>
+          <p>Consider the following simple speed camera function:</p>
+          <div class="math-code-block">function processSpeed(speed) {
+    if (speed > 100) {          // Decision D1 (True or False)
+        triggerSpeedCamera();   // Statement S1 (Executable)
+    }
+    return speed;               // Statement S2 (Executable)
+}</div>
+
+          <div class="math-steps-container">
+            <div class="math-step-card">
+              <div class="math-step-badge">1</div>
+              <div class="math-step-body">
+                <div class="math-step-title">Execute Test Case 1 (speed = 120)</div>
+                <div class="math-step-content">
+                  <div>• Path: <code>speed &gt; 100 is TRUE &rarr; triggerSpeedCamera() &rarr; return speed</code>.</div>
+                  <div>• Both S1 and S2 ran! <strong>Statement Coverage = 2 / 2 = 100%!</strong> 🎉 (Looks green in coverage reports).</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="math-step-card">
+              <div class="math-step-badge">2</div>
+              <div class="math-step-body">
+                <div class="math-step-title">THE FATAL FLAW (Untested False Branch)</div>
+                <div class="math-step-content">
+                  <div>• What happens when <code>speed &le; 100</code>? The FALSE branch was <strong>NEVER tested</strong>!</div>
+                  <div>• If there were a bug where the camera flashed anyway, you would never catch it!</div>
+                  <div>• <strong>Branch Coverage:</strong> Only 1 branch out of 2 was exercised = <strong>50% Branch Coverage</strong>.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="math-takeaway-card">
+            <span class="math-takeaway-icon">⚖️</span>
+            <div><strong>The Subsumption Rule:</strong> 100% Branch Coverage ALWAYS guarantees 100% Statement Coverage. 100% Statement Coverage DOES NOT guarantee 100% Branch Coverage.</div>
+          </div>
+        </div>
+
+        <!-- McCabe's Cyclomatic Complexity Walkthrough -->
+        <div class="formula-block">
+          <h4>McCabe's Cyclomatic Complexity V(G)</h4>
+          <p>Calculates the number of linearly independent paths through the code and the minimum test cases required for 100% branch coverage:</p>
+          <div class="math-display-card">
+            <span class="math-var">Complexity V(G)</span>
+            <span class="math-op">=</span>
+            <span class="math-val">Binary Decision Predicates (D) + 1</span>
+          </div>
+          <div class="math-display-card">
+            <span class="math-var">Complexity V(G) [Graph]</span>
+            <span class="math-op">=</span>
+            <span class="math-val">Edges (E) - Nodes (N) + 2P</span>
+            <span class="math-desc">(P = 1 for a single program)</span>
+          </div>
+        </div>
+
+        <div class="math-example-box realworld">
+          <div class="math-example-header">
+            <h4 class="math-example-title">💡 Intuitive Cyclomatic Complexity Walkthrough</h4>
+            <span class="math-badge-realworld">Everyday Logic</span>
+          </div>
+          <p>Suppose a function processes online store discounts:</p>
+          <div class="math-code-block">function calculateDiscount(user) {
+    if (user.isVIP) { applyVIPDiscount(); }      // Decision 1
+    if (user.cartTotal > 100) { applyBulkBonus(); } // Decision 2
+    if (user.hasCoupon) { applyCoupon(); }       // Decision 3
+}</div>
+
+          <div class="math-steps-container">
+            <div class="math-step-card">
+              <div class="math-step-badge">1</div>
+              <div class="math-step-body">
+                <div class="math-step-title">Count Binary Decision Constructs</div>
+                <div class="math-step-content">
+                  <div>Count each <code>if</code> statement: <code>D = 3</code> decisions.</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="math-step-card">
+              <div class="math-step-badge">2</div>
+              <div class="math-step-body">
+                <div class="math-step-title">Calculate Complexity V(G)</div>
+                <div class="math-step-content">
+                  <div><code>V(G) = D + 1 = 3 + 1 = 4</code>.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="math-answer-box">
+            <span class="math-answer-label">✅ Practical Meaning for Testers:</span>
+            <div>You need a <strong>minimum of 4 test cases</strong> to achieve 100% branch coverage of this function!</div>
+          </div>
+        </div>
+
+        <!-- Official ISTQB Exam Walkthrough #1 -->
+        <div class="math-example-box exam">
+          <div class="math-example-header">
+            <h4 class="math-example-title">🎓 Official ISTQB Exam Question Walkthrough: Statement Coverage Overlap</h4>
+            <span class="math-badge-exam">Sample Exam B — Q64</span>
+          </div>
+
+          <div class="exam-stem-box">
+            <div class="exam-stem-label">Official Exam Stem:</div>
+            <p class="exam-stem-text">"You run two test cases, T1 and T2, on the same code. Test T1 achieved 40% statement coverage and test T2 achieved 65% statement coverage. What is guaranteed to be true?"</p>
+          </div>
+
+          <div class="math-steps-container">
+            <div class="math-step-card">
+              <div class="math-step-badge">1</div>
+              <div class="math-step-body">
+                <div class="math-step-title">Add the Coverage Percentages</div>
+                <div class="math-step-content">
+                  <div><code>40% + 65% = 105%</code>.</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="math-step-card">
+              <div class="math-step-badge">2</div>
+              <div class="math-step-body">
+                <div class="math-step-title">Apply Deductive Mathematical Logic</div>
+                <div class="math-step-content">
+                  <div>Since total executable statements cannot exceed 100%, the sum exceeds 100% by <code>105% - 100% = 5%</code>.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="math-answer-box">
+            <span class="math-answer-label">✅ Guaranteed True Conclusion:</span>
+            <div><em>"There exists at least one statement that must have been executed by both T1 and T2."</em></div>
+          </div>
+        </div>
+
+        <!-- Official ISTQB Exam Walkthrough #2 -->
+        <div class="math-example-box exam">
+          <div class="math-example-header">
+            <h4 class="math-example-title">🎓 Official ISTQB Exam Question Walkthrough: Control Flow Graph Branch Items</h4>
+            <span class="math-badge-exam">Sample Exam C — Q104</span>
+          </div>
+
+          <div class="exam-stem-box">
+            <div class="exam-stem-label">Official Exam Stem:</div>
+            <p class="exam-stem-text">"You want to apply branch testing to the code represented by a control flow graph having 8 edges. How many coverage items do you need to test?"</p>
+          </div>
+
+          <div class="math-steps-container">
+            <div class="math-step-card">
+              <div class="math-step-badge">1</div>
+              <div class="math-step-body">
+                <div class="math-step-title">Define Coverage Items in Branch Testing</div>
+                <div class="math-step-content">
+                  <div>In white-box branch testing, the coverage items are the individual branches (control flow graph edges).</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="math-answer-box">
+            <span class="math-answer-label">✅ Correct Answer / Solution:</span>
+            <div>Since the graph has 8 edges, there are exactly <strong>8 coverage items</strong> to test.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 6: ESTIMATION & DEFECT METRICS REFERENCE -->
+    <div id="tab-metrics-ref" class="math-tab-content">
+      <div class="card formula-card">
+        <h2>📈 Estimation & Defect Metrics Mathematical Formulas & Examples</h2>
+        <p>Quantitative models and defect metrics allow test managers to forecast effort, monitor quality, and prioritize risk.</p>
+
+        <div class="formula-block">
+          <h4>Three-Point Estimation (PERT)</h4>
+          <div class="math-display-card">
+            <span class="math-var">Expected Effort (E)</span>
+            <span class="math-op">=</span>
+            <div class="math-fraction">
+              <div class="math-num">Optimistic (O) + 4 × Most Likely (M) + Pessimistic (P)</div>
+              <div class="math-denom">6</div>
+            </div>
+          </div>
+          <div class="math-display-card">
+            <span class="math-var">Standard Deviation (σ)</span>
+            <span class="math-op">=</span>
+            <div class="math-fraction">
+              <div class="math-num">Pessimistic (P) - Optimistic (O)</div>
+              <div class="math-denom">6</div>
+            </div>
+          </div>
+          <p>Where <code>O</code> = Best-case estimate, <code>M</code> = Most likely estimate, <code>P</code> = Worst-case estimate.</p>
+        </div>
+
+        <!-- Real-World PERT Example -->
+        <div class="math-example-box realworld">
+          <div class="math-example-header">
+            <h4 class="math-example-title">⏱️ Everyday Real-Life Example: Sprint Task Estimation (Payment Gateway)</h4>
+            <span class="math-badge-realworld">Everyday Logic</span>
+          </div>
+          <p>A QA engineer estimates the time needed to test a third-party payment gateway integration:</p>
+
+          <div class="math-steps-container">
+            <div class="math-step-card">
+              <div class="math-step-badge">O</div>
+              <div class="math-step-body">
+                <div class="math-step-title">Optimistic Estimate (2 person-days)</div>
+                <div class="math-step-content">
+                  <div>API documentation is perfect, sandbox environment is stable, zero blocker defects.</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="math-step-card">
+              <div class="math-step-badge">M</div>
+              <div class="math-step-body">
+                <div class="math-step-title">Most Likely Estimate (5 person-days)</div>
+                <div class="math-step-content">
+                  <div>Typical minor bug fixes, average re-testing cycles, normal velocity.</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="math-step-card">
+              <div class="math-step-badge">P</div>
+              <div class="math-step-body">
+                <div class="math-step-title">Pessimistic Estimate (14 person-days)</div>
+                <div class="math-step-content">
+                  <div>Payment provider sandbox downtime, currency conversion bugs, severe security blockers.</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="math-step-card">
+              <div class="math-step-badge">E</div>
+              <div class="math-step-body">
+                <div class="math-step-title">Calculate Expected Effort (E)</div>
+                <div class="math-step-content">
+                  <div class="math-display-card" style="margin-top:0.2rem;">
+                    <span class="math-var">E</span>
+                    <span class="math-op">=</span>
+                    <div class="math-fraction">
+                      <div class="math-num">2 + 4(5) + 14</div>
+                      <div class="math-denom">6</div>
+                    </div>
+                    <span class="math-op">=</span>
+                    <div class="math-fraction">
+                      <div class="math-num">36</div>
+                      <div class="math-denom">6</div>
+                    </div>
+                    <span class="math-op">=</span>
+                    <span class="math-val">6.0 person-days</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="math-step-card">
+              <div class="math-step-badge">σ</div>
+              <div class="math-step-body">
+                <div class="math-step-title">Calculate Uncertainty (Standard Deviation σ)</div>
+                <div class="math-step-content">
+                  <div><code>σ = (14 - 2) / 6 = 12 / 6 = 2.0 person-days</code>.</div>
+                  <div>The team can commit to <strong>6.0 person-days</strong> with a 95% confidence interval of <code>[2.0, 10.0] days (E &plusmn; 2σ)</code>.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Official ISTQB Exam Walkthrough #1 -->
+        <div class="math-example-box exam">
+          <div class="math-example-header">
+            <h4 class="math-example-title">🎓 Official ISTQB Exam Question Walkthrough: Iteration Effort Extrapolation</h4>
+            <span class="math-badge-exam">Sample Exam C — Q111</span>
+          </div>
+
+          <div class="exam-stem-box">
+            <div class="exam-stem-label">Official Exam Stem:</div>
+            <p class="exam-stem-text">"At the beginning of each iteration, the team uses the formula E(n) = (3 * A(n-1) + A(n-2)) / 4 where A(n) is actual work done. Given actual effort A(4) = 6 person-days and A(3) = 8 person-days, what is estimated work for iteration #5?"</p>
+          </div>
+
+          <div class="math-steps-container">
+            <div class="math-step-card">
+              <div class="math-step-badge">1</div>
+              <div class="math-step-body">
+                <div class="math-step-title">Substitute Given Actuals</div>
+                <div class="math-step-content">
+                  <div><code>A(n-1) = A(4) = 6</code> and <code>A(n-2) = A(3) = 8</code>.</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="math-step-card">
+              <div class="math-step-badge">2</div>
+              <div class="math-step-body">
+                <div class="math-step-title">Evaluate the Extrapolation Formula</div>
+                <div class="math-step-content">
+                  <div><code>E(5) = (3 × 6 + 8) / 4 = (18 + 8) / 4 = 26 / 4 = 6.5 person-days</code>.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="math-answer-box">
+            <span class="math-answer-label">✅ Correct Answer / Solution:</span>
+            <div>The estimated effort for iteration #5 is exactly <strong>6.5 person-days</strong>.</div>
+          </div>
+        </div>
+
+        <!-- Defect Detection Percentage (DDP) -->
+        <div class="formula-block">
+          <h4>Defect Detection Percentage (DDP)</h4>
+          <div class="math-display-card">
+            <span class="math-var">DDP</span>
+            <span class="math-op">=</span>
+            <div class="math-fraction">
+              <div class="math-num">Defects Found in Testing (D_test)</div>
+              <div class="math-denom">Total Defects Found (D_test + D_prod)</div>
+            </div>
+            <span class="math-op">×</span>
+            <span class="math-unit">100%</span>
+          </div>
+          <p>Indicates test process efficiency by comparing defects found during testing against defects discovered in operational use.</p>
+        </div>
+
+        <div class="math-example-box realworld">
+          <div class="math-example-header">
+            <h4 class="math-example-title">🏦 Real-World Banking App Quality Gate: DDP Calculation</h4>
+            <span class="math-badge-realworld">Quality Metric</span>
+          </div>
+
+          <div class="math-steps-container">
+            <div class="math-step-card">
+              <div class="math-step-badge">1</div>
+              <div class="math-step-body">
+                <div class="math-step-title">Defects Found in Pre-Release Testing</div>
+                <div class="math-step-content">
+                  <div>During internal QA testing, the test team identifies <strong>190 defects</strong> (<code>D_test = 190</code>).</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="math-step-card">
+              <div class="math-step-badge">2</div>
+              <div class="math-step-body">
+                <div class="math-step-title">Defects Escaped to Production</div>
+                <div class="math-step-content">
+                  <div>After launching to 500,000 customers, users report <strong>10 defects</strong> in live production (<code>D_prod = 10</code>).</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="math-step-card">
+              <div class="math-step-badge">3</div>
+              <div class="math-step-body">
+                <div class="math-step-title">Calculate DDP Quality Gate</div>
+                <div class="math-step-content">
+                  <div class="math-display-card" style="margin-top:0.2rem;">
+                    <span class="math-var">DDP</span>
+                    <span class="math-op">=</span>
+                    <div class="math-fraction">
+                      <div class="math-num">190</div>
+                      <div class="math-denom">190 + 10</div>
+                    </div>
+                    <span class="math-op">×</span>
+                    <span class="math-unit">100%</span>
+                    <span class="math-op">=</span>
+                    <div class="math-fraction">
+                      <div class="math-num">190</div>
+                      <div class="math-denom">200</div>
+                    </div>
+                    <span class="math-op">×</span>
+                    <span class="math-unit">100%</span>
+                    <span class="math-op">=</span>
+                    <span class="math-val">95%</span>
+                  </div>
+                  <div>The testing process captured <strong>95%</strong> of all defects before release! Only 5% escaped to production (Defect Escape Rate = 5%).</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Risk Exposure Formula & Table -->
+        <div class="formula-block">
+          <h4>Product Risk Exposure & Risk-Based Testing Prioritization</h4>
+          <div class="math-display-card">
+            <span class="math-var">Risk Exposure (RPN)</span>
+            <span class="math-op">=</span>
+            <span class="math-val">Likelihood (1–5) × Impact (1–5)</span>
+          </div>
+
+          <div class="math-table-wrap">
+            <table class="math-table" style="margin-top:0.5rem;">
+              <thead><tr><th>Feature / Risk Scenario</th><th>Likelihood (1-5)</th><th>Impact (1-5)</th><th>Risk Exposure (RPN)</th><th>Testing Priority</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><strong>Payment Gateway Crash on Checkout</strong></td>
+                  <td>4 (High)</td>
+                  <td>5 (Catastrophic)</td>
+                  <td><strong style="color:#dc2626;">20</strong></td>
+                  <td><span class="math-pill math-pill-invalid">Critical — Test First!</span></td>
+                </tr>
+                <tr>
+                  <td><strong>Search Filter Sorting Lag</strong></td>
+                  <td>3 (Medium)</td>
+                  <td>2 (Minor)</td>
+                  <td><strong style="color:#d97706;">6</strong></td>
+                  <td><span class="math-pill math-pill-covered">Medium — Test Next</span></td>
+                </tr>
+                <tr>
+                  <td><strong>Footer Copyright Year Typo</strong></td>
+                  <td>1 (Very Low)</td>
+                  <td>1 (Negligible)</td>
+                  <td><strong style="color:#16a34a;">1</strong></td>
+                  <td><span class="math-pill math-pill-valid">Low — Test Last</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ============================================================
+       MOCK EXAM VIEW
+       ============================================================ -->
+  <section id="view-mock" class="view">
+    <div id="mock-area"></div>
+  </section>
+
+</main>
+
+<script src="js/app.js"></script>
+</body>
+</html>

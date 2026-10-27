@@ -1,0 +1,51 @@
+# Builds the SQLite DB from seed/, exports it to static JSON, and publishes
+# the frontend/ folder to GitHub Pages: https://vasiarapti.github.io/ISTQB_app/
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # build_db.py and export_static.py only use the standard library
+      - name: Build database from seed data
+        run: python ingestion/build_db.py
+
+      - name: Export static data for the frontend
+        run: python ingestion/export_static.py
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: frontend
+
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
